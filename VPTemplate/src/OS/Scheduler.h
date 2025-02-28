@@ -59,8 +59,8 @@ typedef struct _Scheduler
     uint32_t halTick_10ms;              //!< Timestamp for last execution of 10ms task
     CyclicFunction pTask_10ms;          //!< Function pointer to 10ms cyclic task function
 
-    uint32_t halTick_100ms;             //!< Timestamp for last execution of 100ms task
-    CyclicFunction pTask_100ms;         //!< Function pointer to 100ms cyclic task function
+    uint32_t halTick_50ms;             //!< Timestamp for last execution of 50ms task
+    CyclicFunction pTask_50ms;         //!< Function pointer to 50ms cyclic task function
 
     uint32_t halTick_250ms;             //!< Timestamp for last execution of 250ms task
     CyclicFunction pTask_250ms;         //!< Function pointer to 250ms cyclic task function
@@ -97,5 +97,19 @@ int32_t schedInitialize(Scheduler* pScheduler);
  * @return SCHED_ERR_OK if no error occured
  */
 int32_t schedCycle(Scheduler* pScheduler);
+
+
+/**
+ * @brief Returns the difference between the current time and the saved
+ * timestamp
+ *
+ * @param savedTimestamp
+ * @param currentTime
+ *
+ * @return uint32_t
+ */
+static uint32_t schedGetElaspedTime(uint32_t savedTimestamp, uint32_t currentTime);
+
+
 
 #endif

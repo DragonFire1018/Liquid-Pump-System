@@ -89,7 +89,7 @@ int32_t schedCycle(Scheduler* pScheduler)
 	//Get the current tick time and calculate the difference since the last call
 	actualTick = HAL_GetTick();
 	timeElapsed = schedGetElaspedTime(pScheduler->halTick_10ms, actualTick);
-	if(timeElapsed >= HAL_TICK_VALUE_1MS)
+	if(timeElapsed >= HAL_TICK_VALUE_10MS)
 	{
 		pScheduler->halTick_10ms = actualTick;
 		if(pScheduler->pTask_10ms != 0)
@@ -101,7 +101,7 @@ int32_t schedCycle(Scheduler* pScheduler)
 	//Get the current tick time and calculate the difference since the last call
 	actualTick = HAL_GetTick();
 	timeElapsed = schedGetElaspedTime(pScheduler->halTick_50ms, actualTick);
-	if(timeElapsed >= HAL_TICK_VALUE_1MS)
+	if(timeElapsed >= HAL_TICK_VALUE_50MS)
 	{
 		pScheduler->halTick_50ms = actualTick;
 		if(pScheduler->pTask_50ms != 0)
@@ -113,7 +113,7 @@ int32_t schedCycle(Scheduler* pScheduler)
 	//Get the current tick time and calculate the difference since the last call
 	actualTick = HAL_GetTick();
 	timeElapsed = schedGetElaspedTime(pScheduler->halTick_250ms, actualTick);
-	if(timeElapsed >= HAL_TICK_VALUE_1MS)
+	if(timeElapsed >= HAL_TICK_VALUE_250MS)
 	{
 		pScheduler->halTick_250ms = actualTick;
 		if(pScheduler->pTask_250ms != 0)
@@ -125,7 +125,7 @@ int32_t schedCycle(Scheduler* pScheduler)
 	//Get the current tick time and calculate the difference since the last call
 	actualTick = HAL_GetTick();
 	timeElapsed = schedGetElaspedTime(pScheduler->halTick_1000ms, actualTick);
-	if(timeElapsed >= HAL_TICK_VALUE_1MS)
+	if(timeElapsed >= HAL_TICK_VALUE_1000MS)
 	{
 		pScheduler->halTick_1000ms = actualTick;
 		if(pScheduler->pTask_1000ms != 0)

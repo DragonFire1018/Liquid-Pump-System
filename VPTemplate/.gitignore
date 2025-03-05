@@ -5,4 +5,8 @@
 .vscode/ipch
 .cproject
 .settings
+build
+<<<<<<< HEAD
 .project
+=======
+>>>>>>> 76c972f21372f05445b734e3ec79c5dd7de1a96c

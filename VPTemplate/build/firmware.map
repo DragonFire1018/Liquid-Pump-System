@@ -181,6 +181,27 @@ Discarded input sections
                 0x00000000       0x2c obj/printf.o
  .text.fctprintf
                 0x00000000       0x44 obj/printf.o
+ .text          0x00000000        0x0 obj/EMAFilter.o
+ .data          0x00000000        0x0 obj/EMAFilter.o
+ .bss           0x00000000        0x0 obj/EMAFilter.o
+ .text.filterInitEMA
+                0x00000000       0x32 obj/EMAFilter.o
+ .text.filterResetEMA
+                0x00000000       0x20 obj/EMAFilter.o
+ .text.filterEMA
+                0x00000000       0x66 obj/EMAFilter.o
+ .debug_info    0x00000000      0x1a1 obj/EMAFilter.o
+ .debug_abbrev  0x00000000       0xc4 obj/EMAFilter.o
+ .debug_aranges
+                0x00000000       0x30 obj/EMAFilter.o
+ .debug_rnglists
+                0x00000000       0x1f obj/EMAFilter.o
+ .debug_line    0x00000000      0x149 obj/EMAFilter.o
+ .debug_str     0x00000000      0x251 obj/EMAFilter.o
+ .comment       0x00000000       0x13 obj/EMAFilter.o
+ .debug_frame   0x00000000       0x88 obj/EMAFilter.o
+ .ARM.attributes
+                0x00000000       0x2e obj/EMAFilter.o
  .text          0x00000000        0x0 obj/StateTable.o
  .data          0x00000000        0x0 obj/StateTable.o
  .bss           0x00000000        0x0 obj/StateTable.o
@@ -1243,6 +1264,7 @@ LOAD obj/SystemHandler.o
 LOAD obj/GlobalObjects.o
 LOAD obj/LogOutput.o
 LOAD obj/printf.o
+LOAD obj/EMAFilter.o
 LOAD obj/StateTable.o
 START GROUP
 LOAD C:/msys64/mingw64/bin/../lib/gcc/arm-none-eabi/13.3.0/../../../../arm-none-eabi/lib/thumb/v7e-m/nofp\libc_nano.a

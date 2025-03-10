@@ -22,12 +22,16 @@
 
 
 /***** MACROS ****************************************************************/
-#define STATE_ID_STARTUP        1       //!< Example State for Startup
-#define STATE_ID_RUNNING        2       //!< Example State for Runing
-#define STATE_ID_FAILURE        3       //!< Example State for Failure
+#define STATE_ID_BOOTUP        			1       //!< Example State for Startup
+#define STATE_ID_OPERATIONAL        	2       //!< Example State for Running
+#define STATE_ID_MAINTENANCE       		3       //!< Example State for Maintenance
+#define STATE_ID_FAILURE        		4       //!< Example State for Failure
 
-#define EVT_ID_INIT_READY       1       //!< Event ID for INIT_READY
-#define EVT_ID_SENSOR_FAILED    2       //!< Event ID for Sensor Failure
+#define EVT_ID_SYSTEM_OK       	 	1      //!< Event ID for System OK
+#define EVT_ID_SENSOR_FAILED     	2      //!< Event ID for Sensor Failure
+#define EVT_ID_ENTER_MAINTENANCE 	3		//!< Event ID for Enter Maintenance
+#define EVT_ID_LEAVE_MAINTENANCE 	4		//!< Event ID for LEAVE MAINTENANCE
+
 
 /***** TYPES *****************************************************************/
 

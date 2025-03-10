@@ -24,8 +24,8 @@
 #define MIN_REVOLUTIONS			0			// Min revolutions 0rpm
 #define MAX_REVOLUTIONS			1000		// Max revolutions 1000rpm
 
-#define MIN_OUTPUT_VOLTAGE 0.5 //Min output voltage 0.5
-#define MAX_OUTPUT_VOLTAGE 2.5 //Max output voltage 2.5
+#define MIN_OUTPUT_VOLTAGE 0.5 				//Min output voltage 0.5
+#define MAX_OUTPUT_VOLTAGE 2.5 				//Max output voltage 2.5
 
 #define MILIVOLTAGE_TO_REVOLUTIONS 0.5
 /***** PRIVATE TYPES *********************************************************/
@@ -36,7 +36,7 @@ static int32_t sensorCalculateSpeed(int32_t inputVoltage);
 
 
 /***** PRIVATE VARIABLES *****************************************************/
-static EMAFilterData_t gSensor1Filter;
+static EMAFilterData_t gSensorEMAFilter;
 
 static int32_t gSensorVoltage;
 static int32_t gSensorVoltageFiltered;
@@ -45,29 +45,29 @@ static int32_t gSensorSpeed;
 
 /***** PUBLIC FUNCTIONS ******************************************************/
 
-int32_t sensorInitialize()
+int32_t speedSensorInitialize()
 {
 	gSensorVoltage  		= 0;
 	gSensorVoltageFiltered  = 0;
 	gSensorSpeed 		    = 0;
 
 	/*Todo*/
-	filterInitEMA(&gSensor1Filter, 100, 70, true);
+	filterInitEMA(&gSensorEMAFilter, 100, 70, true);
 
 	return 0;
 }
 
-int32_t sensorCycle()
+int32_t speedSensorCycle()
 {
-	gSensorVoltage 			= adcReadChannel(ADC_INPUT0);
-	gSensorVoltageFiltered		= filterEMA(&gSensor1Filter, gSensorVoltage);
+	gSensorVoltage 				= adcReadChannel(ADC_INPUT0);
+	gSensorVoltageFiltered		= filterEMA(&gSensorEMAFilter, gSensorVoltage);
 
 	gSensorSpeed = sensorCalculateSpeed(gSensorVoltageFiltered);
 
 	return 0;
 }
 
-int32_t sensorGetSpeed()
+int32_t speedSensorGetSpeed()
 {
 	return gSensorSpeed;
 }

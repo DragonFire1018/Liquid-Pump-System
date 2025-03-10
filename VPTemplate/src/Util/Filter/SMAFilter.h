@@ -1,5 +1,5 @@
 /******************************************************************************
- * @file EMAFilter.h
+ * @file Filter.h
  *
  * @author Andreas Schmidt (a.v.schmidt81@googlemail.com
  * @date   08.02.2025
@@ -12,8 +12,8 @@
  *
  *
  *****************************************************************************/
-#ifndef _EMAFILTER_H_
-#define _EMAFILTER_H_
+#ifndef _SMAFILTER_H_
+#define _SMAFILTER_H_
 
 /***** INCLUDES **************************************************************/
 #include <stdbool.h>
@@ -31,51 +31,52 @@
 /***** TYPES *****************************************************************/
 
 /**
- * @brief Struct which represents a EMA filter
+ * @brief Struct which represents a SMA filter
  *
  */
-typedef struct _EMAFilterData
+typedef struct _SMAFilterData
 {
     bool firstValueAvailable;                   //!< Flag to indicate whether there was already a value set as prev value
-    int32_t alpha;                              //!< Alpha value (filter constant) as scaled value
     int32_t previousValue;                      //!< Previous value of the filter output
     int32_t scalingFactor;                      //!< Used scaling factor
-} EMAFilterData_t;
+    int32_t sum;                      //!< sum of all values
+    int32_t windowSize;                      //!< size of the window
+} SMAFilterData_t;
 
 
 /***** PROTOTYPES ************************************************************/
 
 
 /**
- * @brief Initialize an EMA filter with the provided parameter
+ * @brief Initialize an SMA filter with the provided parameter
  *
- * @param pEMA              Poitner to the EMA filter struct
+ * @param pSMA              Poitner to the SMA filter struct
  * @param scalingFactor     Scaling factor used for internal calculations
  * @param alpha             Already scaled alpha factor (must be scaled with same scaling factor as supplied via parameter)
  * @param resetFilter       Flag to indicate whether the filter should be reset
  *
  * @return Return FILTER_ERR_OK is no error occured
  */
-int32_t filterInitEMA(EMAFilterData_t* pEMA, int32_t scalingFactor, int32_t alpha, bool resetFilter);
+int32_t filterInitSMA(SMAFilterData_t* pSMA, int32_t scalingFactor, int32_t alpha, bool resetFilter);
 
 
 /**
- * @brief Resets the EMA filter structure
+ * @brief Resets the SMA filter structure
  *
- * @param pEMA              Pointer to the EMA filter struct
+ * @param pSMA              Pointer to the SMA filter struct
  *
  * @return Return FILTER_ERR_OK is no error occured
  */
-int32_t filterResetEMA(EMAFilterData_t* pEMA);
+int32_t filterResetSMA(SMAFilterData_t* pSMA);
 
 /**
- * @brief Performs the EMA filtering on the provided sensor value
+ * @brief Performs the ESA filtering on the provided sensor value
  *
- * @param pEMA              Pointer to the EMA filter struct
+ * @param pSMA              Pointer to the SMA filter struct
  * @param sensorValue       Value which should be filtered
  *
  * @return The filtered sensor value
  */
-int32_t filterEMA(EMAFilterData_t* pEMA, int32_t sensorValue);
+int32_t filterSMA(SMAFilterData_t* pSMA, int32_t sensorValue);
 
 #endif

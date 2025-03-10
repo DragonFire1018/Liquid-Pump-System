@@ -29,6 +29,8 @@
 #include "TimerModule.h"
 #include "DisplayModule.h"
 #include "Scheduler.h"
+#include "Util/Sensors/SpeedSensor.h"
+#include "Util/Sensors/FlowRateSensor.h"
 
 #include "GlobalObjects.h"
 
@@ -53,13 +55,27 @@ static Scheduler gScheduler;            // Global Scheduler instance
 /***** PUBLIC FUNCTIONS ******************************************************/
 
 /**
- * @brief My function
+ * @brief Analog and Digital Input Processing
  */
-void myfunc()
+void runAnalogDigitalInputProccessing()
 {
-	ledToggleLED(LED0);
+	speedSensorCycle();
+	flowRateSensorCycle();
 }
+/**
+ * @brief Main Application and State Machine
+ */
+void runStateMachine()
+{
+	sampleAppRun();
+}
+/**
+ * @brief Health-Monitoring (Stack-Monitoring)
+ */
+void runHealthMonitoring()
+{
 
+}
 
 /**
  * @brief Main function of System
@@ -79,10 +95,9 @@ int main(void)
 
     // Prepare Scheduler
     gScheduler.pGetHALTick = HAL_GetTick;
-    gScheduler.pTask_1000ms = myfunc;
-
-    int globalCounter = 0;
-    int currentDisplay = 0;
+    gScheduler.pTask_10ms = runAnalogDigitalInputProccessing;
+    gScheduler.pTask_50ms = runStateMachine;
+    gScheduler.pTask_250ms = runHealthMonitoring;
 
     while (1)
     {

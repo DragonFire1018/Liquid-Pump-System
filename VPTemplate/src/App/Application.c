@@ -124,6 +124,9 @@ static int32_t onEntryBootUp(State_t* pState, int32_t eventID)
 
 static int32_t onStateOperational(State_t* pState, int32_t eventID)
 {
+	//turn LED D0 on
+
+
 	//if B1 was pressed enter Maintenance State
 	sameplAppSendEvent(EVT_ID_ENTER_MAINTENANCE);
 
@@ -135,10 +138,14 @@ static int32_t onStateOperational(State_t* pState, int32_t eventID)
 static int32_t onExitOperational(State_t* pState, int32_t eventID)
 {
 	//Do thinks while exit Operational
+
+	//turn LED D0 off
     return 0;
 }
 static int32_t onStateMaintenance(State_t* pState, int32_t eventID)
 {
+	//Flashing LED D0
+
 	//if B1 was pressed leave Maintenance State
 	sameplAppSendEvent(EVT_ID_LEAVE_MAINTENANCE);
     return 0;
@@ -147,11 +154,20 @@ static int32_t onStateMaintenance(State_t* pState, int32_t eventID)
 static int32_t onExitMaintenance(State_t* pState, int32_t eventID)
 {
 	//Do thinks while exit Maintenance
+
+
+	//Stop Flashing LED D0
     return 0;
 }
 
 static int32_t onEntryFailure(State_t* pState, int32_t eventID)
 {
 	//Perform Failure logic
+
+	//Turn of the motor
+
+	//if System Failure turn LED D2 on
+	//else
+	//turn LED D4 on
     return 0;
 }

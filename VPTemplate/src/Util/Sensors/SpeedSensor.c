@@ -24,10 +24,10 @@
 #define MIN_REVOLUTIONS			0			// Min revolutions 0rpm
 #define MAX_REVOLUTIONS			1000		// Max revolutions 1000rpm
 
-#define MIN_OUTPUT_VOLTAGE 0.5 				//Min output voltage 0.5
-#define MAX_OUTPUT_VOLTAGE 2.5 				//Max output voltage 2.5
+#define MIN_OUTPUT_MICRO_VOLTAGE 500000 				//Min output voltage 0.5
+#define MAX_OUTPUT_MICRO_VOLTAGE 2500000				//Max output voltage 2.5
 
-#define MILIVOLTAGE_TO_REVOLUTIONS 0.5
+#define MICROVOLTAGE_TO_REVOLUTIONS 0.0005
 /***** PRIVATE TYPES *********************************************************/
 
 
@@ -79,8 +79,8 @@ static int32_t sensorCalculateSpeed(int32_t inputVoltage)
 {
 	int32_t speedValue;
 
-	if(inputVoltage < MAX_OUTPUT_VOLTAGE && inputVoltage > MIN_OUTPUT_VOLTAGE){
-		speedValue = inputVoltage*MILIVOLTAGE_TO_REVOLUTIONS;
+	if(inputVoltage < MAX_OUTPUT_MICRO_VOLTAGE && inputVoltage > MIN_OUTPUT_MICRO_VOLTAGE){
+		speedValue = inputVoltage*MICROVOLTAGE_TO_REVOLUTIONS;
 	}
 	return speedValue;
 }

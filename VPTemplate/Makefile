@@ -70,6 +70,8 @@ CFLAGS += -I$(SRC_DIR)/Service/Sensor
 CFLAGS += -I$(SRC_DIR)/Service/Util
 # Include files for Utils
 CFLAGS += -I$(SRC_DIR)/Util
+# Include files for Sensors
+CFLAGS += -I$(SRC_DIR)/Util/Sensors
 
 
 #
@@ -96,6 +98,7 @@ SRC_C += $(wildcard $(SRC_DIR)/Service/Sensor/*.c)
 SRC_C += $(wildcard $(SRC_DIR)/Service/Util/*.c)
 SRC_C += $(wildcard $(SRC_DIR)/Util/*.c)
 SRC_C += $(wildcard $(SRC_DIR)/Util/Filter/*.c)
+SRC_C += $(wildcard $(SRC_DIR)/Util/Sensors/*.c)
 SRC_C += $(wildcard $(SRC_DIR)/Util/StateTable/*.c)
 FILENAMES_C	= $(notdir $(SRC_C))
 OBJS_C = $(addprefix $(OBJ_DIR)/, $(FILENAMES_C:.c=.o))

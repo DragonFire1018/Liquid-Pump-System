@@ -57,7 +57,7 @@ typedef struct _SMAFilterData
  *
  * @return Return FILTER_ERR_OK is no error occured
  */
-int32_t filterInitSMA(SMAFilterData_t* pSMA, int32_t scalingFactor, int32_t alpha, bool resetFilter);
+int32_t filterInitSMA(SMAFilterData_t* pSMA, int32_t scalingFactor, bool resetFilter,int32_t windowSize);
 
 
 /**

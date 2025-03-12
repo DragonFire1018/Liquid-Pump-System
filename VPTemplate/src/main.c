@@ -31,6 +31,7 @@
 #include "Scheduler.h"
 #include "Util/Sensors/SpeedSensor.h"
 #include "Util/Sensors/FlowRateSensor.h"
+#include "StackMonitoring.h"
 
 #include "GlobalObjects.h"
 
@@ -59,22 +60,23 @@ static Scheduler gScheduler;            // Global Scheduler instance
  */
 void runAnalogDigitalInputProccessing()
 {
-	speedSensorCycle();
-	flowRateSensorCycle();
+	//speedSensorCycle();
+	//flowRatespeedSensorCycle();
 }
 /**
  * @brief Main Application and State Machine
  */
 void runStateMachine()
 {
-	sampleAppRun();
+	//sampleAppRun();
 }
 /**
  * @brief Health-Monitoring (Stack-Monitoring)
  */
 void runHealthMonitoring()
 {
-
+	isStackOverflow();
+	countFreeStack();
 }
 
 /**

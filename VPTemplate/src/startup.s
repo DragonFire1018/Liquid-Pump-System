@@ -16,6 +16,12 @@
 .word _sbss
 /* end address for the .bss section. defined in linker script */
 .word _ebss
+/* first usable address of stack area */
+.word _top_of_stack
+/* last usable address of stack area */
+.word _bottom_of_stack
+/* intial stack pointer address */
+.word _initial_stack_pointer
 
 
 /**
@@ -60,6 +66,28 @@ FillZerobss:
 LoopFillZerobss:
   cmp r2, r4
   bcc FillZerobss
+
+
+LoopFillStackInit:
+  /* Prepare to fill the stack */
+  ldr r2, = _top_of_stack
+  ldr r4, = _bottom_of_stack
+  /* AB at start */
+  movs r3, #0xABABABAB
+  str r3, [r2]
+  add r2, #4
+  /* CD fill the stack */
+  movs r3, #0xCDCDCDCD
+  b LoopFillCDStack
+
+FillCDStack:
+  str r3, [r2]
+  adds r2, r2, #4
+
+LoopFillCDStack:
+  cmp r2, r4
+  bcc FillCDStack
+
 
   ldr r0, =_initial_stack_pointer	/* Load address of initial_stack_pointer into R0 for. Symbol defined in Linker Script */
   mov   sp, r0          			/* set stack pointer */

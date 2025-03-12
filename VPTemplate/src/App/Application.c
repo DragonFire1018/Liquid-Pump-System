@@ -39,8 +39,9 @@
 
 /***** PRIVATE PROTOTYPES ****************************************************/
 // State realte functions (on-Entry, on-State and on-Exit)
-static int32_t onEntryStartup(State_t* pState, int32_t eventID);
-static int32_t onStateRunning(State_t* pState, int32_t eventID);
+static int32_t onEntryBootUp(State_t* pState, int32_t eventID);
+static int32_t onStateOperational(State_t* pState, int32_t eventID);
+static int32_t onExitOperational(State_t* pState, int32_t eventID);
 static int32_t onStateMaintenance(State_t* pState, int32_t eventID);
 static int32_t onExitMaintenance(State_t* pState, int32_t eventID);
 static int32_t onEntryFailure(State_t* pState, int32_t eventID);

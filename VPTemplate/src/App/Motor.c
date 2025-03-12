@@ -17,7 +17,7 @@
 
 
 /***** INCLUDES **************************************************************/
-
+#include "Motor.h"
 
 /***** PRIVATE CONSTANTS *****************************************************/
 
@@ -32,47 +32,75 @@
 
 
 /***** PRIVATE VARIABLES *****************************************************/
-
+static bool status;
+static ButtonInfo_t* buttonInfoSW1;
+static ButtonInfo_t* buttonInfoSW2;
 
 /***** PUBLIC FUNCTIONS ******************************************************/
+void initalizeMotor(){
+	buttonInfoSW1->button = BTN_SW1;
+	buttonInfoSW1->previousStatus = BUTTON_RELEASED;
+	buttonInfoSW1->action = startMotor;
 
+	buttonInfoSW2->button = BTN_SW1;
+	buttonInfoSW2->previousStatus = BUTTON_RELEASED;
+	buttonInfoSW2->action = stopMotor;
+}
 void startMotor(){
-	//flashing LED D3
+	status = true;
+	ledToggleLED(LED3);
 }
 
 void motorCycle(){
-	//if SW1 was pressed
-		//stop Motor
-	//if SW2 was pressed
-		//start Motor
-	//if motor on
-		//if no valid Flow Rate value has been set
-			//display "oo" on the 7-Seg
-		//else if the Flow Rate is reached
-			//stop Flashing LED D3 just turn it on
-		//else If the motor speed is > 700 rpm for at least 5 seconds
-			//the Warning LED should be turned on
-		//else If the motor speed is > 900 rpm for at least 3 seconds
-			//the Warning LED should flash
-		//else If the motor speed is < 800 rpm for at least 3 seconds
-			//the Warning LED should be switched from flashing to on
-		//else If the motor speed is < 650 rpm for at least 3 seconds
-			//the Warning LED should be turned off
-		//display the current motor speed on the 7-Seg like:
-			/*0 rpm < Motor speed <= 200 rpm ==> 0 L/h < Flow Rate <= 20 L/h
- 	 	 	 200 rpm < Motor Speed <= 400 rpm ==> 20 L/h < Flow Rate <= 50 L/h
- 	 	 	 400 rpm < Motor Speed <= 600 rpm ==> 50 L/h < Flow Rate <= 75 L/h
- 	 	 	 600 rpm < Motor Speed ==> Flow Rate <= 80 L*/
-		//if the condistions above are not reached
-			//Turn on LED D1
-		//else if LED D1 is on
-			//Turn of LED D1
+	checkButtonStatus(buttonInfoSW1);
+	checkButtonStatus(buttonInfoSW2);
+	if(status == true)
+	{
+		int flowRate = flowRateSensorGetFlowRate();
+		int motorSpeed = speedSensorGetSpeed();
+		if(flowRate  == 0)
+		{
+			//display "oo"on the 7-Seg
+		}
+		else
+		{
+			//else if the Flow Rate is reached
+				//stop Flashing LED D3 just turn it on
+			//else If the motor speed is > 700 rpm for at least 5 seconds
+				//the Warning LED should be turned on
+			//else If the motor speed is > 900 rpm for at least 3 seconds
+				//the Warning LED should flash
+			//else If the motor speed is < 800 rpm for at least 3 seconds
+				//the Warning LED should be switched from flashing to on
+			//else If the motor speed is < 650 rpm for at least 3 seconds
+				//the Warning LED should be turned off
 
-	//if the motor is not on and the flow rate ist valid, after 5sec
-		//start the motor
+			if (motorSpeed <= 200) {
+			    int flowRate = (motorSpeed * 20) / 200; // Skaliert auf 0-20 L/h
+			    displayDoubleDigitNumber(flowRate);
+			} else if (motorSpeed <= 400) {
+			    int flowRate = 20 + ((motorSpeed - 200) * 30) / 200; // Skaliert auf 20-50 L/h
+			    displayDoubleDigitNumber(flowRate);
+			} else if (motorSpeed <= 600) {
+			    int flowRate = 50 + ((motorSpeed - 400) * 25) / 200; // Skaliert auf 50-75 L/h
+			    displayDoubleDigitNumber(flowRate);
+			} else {
+			    int flowRate = 75 + ((motorSpeed - 600) * 5) / (motorSpeed - 600); // Skaliert auf 75-80 L/h
+			    displayDoubleDigitNumber(flowRate);
+			}
+			//if the condistions above are not reached
+						//Turn on LED D1
+					//else if LED D1 is on
+						//Turn of LED D1
+		}
+	}
+	//if(status == false && /* the flow rate ist valid, for 5sec */){
+		//startMotor();
+	//}
 }
 
 void stopMotor(){
+	status = false;
 	//turn LED D3 Off
 }
 

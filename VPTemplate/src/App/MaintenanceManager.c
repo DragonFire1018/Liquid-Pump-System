@@ -17,7 +17,7 @@
 
 
 /***** INCLUDES **************************************************************/
-
+#include "MaintenanceManager.h"
 
 /***** PRIVATE CONSTANTS *****************************************************/
 
@@ -29,20 +29,39 @@
 
 
 /***** PRIVATE PROTOTYPES ****************************************************/
-
+static void handleSW1Event();
+static void handleSW2Event();
 
 /***** PRIVATE VARIABLES *****************************************************/
-
+static ButtonInfo_t* buttonInfoSW1;
+static ButtonInfo_t* buttonInfoSW2;
+static int32_t flowRate = 0;
 
 /***** PUBLIC FUNCTIONS ******************************************************/
+void initalizeMaintenanceManager(){
+	buttonInfoSW1->button = BTN_SW1;
+	buttonInfoSW1->previousStatus = BUTTON_RELEASED;
+	buttonInfoSW1->action = handleSW1Event;
+
+	buttonInfoSW2->button = BTN_SW2;
+	buttonInfoSW2->previousStatus = BUTTON_RELEASED;
+	buttonInfoSW2->action = handleSW2Event;
+}
 void maintenanceCycle(){
-	//if SW1 was pressed
-		//increase the flow rate by 5 L/h
-	//if SW2 was pressed
-		//decrease the flow rate by 5 L/h
-	//display current flow rate on the 7-Seg
+	if(flowRate == 0){
+		//display "--"
+	}else{
+		displayDoubleDigitNumber(flowRate);
+	}
 }
 
 /***** PRIVATE FUNCTIONS *****************************************************/
 
-
+static void handleSW1Event(){
+	//increase the flow rate by 5 L/h
+	flowRate += 5;
+}
+static void handleSW2Event(){
+	//decrease the flow rate by 5 L/h
+	flowRate -= 5;
+}

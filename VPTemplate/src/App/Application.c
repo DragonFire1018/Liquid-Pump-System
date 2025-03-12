@@ -26,6 +26,7 @@
 #include "LEDModule.h"
 
 #include "Util/StateTable/StateTable.h"
+#include "Util/ButtonHandler.h"
 
 
 /***** PRIVATE CONSTANTS *****************************************************/
@@ -39,11 +40,13 @@
 
 /***** PRIVATE PROTOTYPES ****************************************************/
 // State realte functions (on-Entry, on-State and on-Exit)
-static int32_t onEntryStartup(State_t* pState, int32_t eventID);
-static int32_t onStateRunning(State_t* pState, int32_t eventID);
+static int32_t onEntryBootUp(State_t* pState, int32_t eventID);
+static int32_t onStateOperational(State_t* pState, int32_t eventID);
+static int32_t onExitOperational(State_t* pState, int32_t eventID);
 static int32_t onStateMaintenance(State_t* pState, int32_t eventID);
 static int32_t onExitMaintenance(State_t* pState, int32_t eventID);
 static int32_t onEntryFailure(State_t* pState, int32_t eventID);
+static void handleB1Event(int32_t eventID);
 
 /***** PRIVATE VARIABLES *****************************************************/
 
@@ -84,6 +87,8 @@ static StateTableEntry_t gStateTableEntries[] =
  */
 static StateTable_t gStateTable;
 
+static ButtonInfo_t* buttonInfoB1;
+
 
 /***** PUBLIC FUNCTIONS ******************************************************/
 
@@ -92,7 +97,9 @@ int32_t sampleAppInitialize()
     gStateTable.pStateList = gStateList;
     gStateTable.stateCount = sizeof(gStateList) / sizeof(State_t);
     int32_t result = stateTableInitialize(&gStateTable, gStateTableEntries, sizeof(gStateTableEntries) / sizeof(StateTableEntry_t), STATE_ID_BOOTUP);
-
+    buttonInfoB1->button = BTN_B1;
+    buttonInfoB1->previousStatus = BUTTON_RELEASED;
+    buttonInfoB1->action = handleB1Event;
     return result;
 }
 
@@ -114,24 +121,25 @@ int32_t sameplAppSendEvent(int32_t eventID)
 static int32_t onEntryBootUp(State_t* pState, int32_t eventID)
 {
 	// Perform Sensor and System checks
-	//if successfull trigger EVT_ID_SYSTEM_OK
+	//if successfull trigger
+	initalizeMaintenanceManager();
+	initalizeMotor();
 	sameplAppSendEvent(EVT_ID_SYSTEM_OK);
     //else trigger EVT_ID_SENSOR_FAILED
-    sameplAppSendEvent(EVT_ID_SENSOR_FAILED);
+    	//sameplAppSendEvent(EVT_ID_SENSOR_FAILED);
 
     return 0;
 }
 
 static int32_t onStateOperational(State_t* pState, int32_t eventID)
 {
-	//turn LED D0 on
+	/* turn LED D0 on */
+	ledSetLED(LED0,LED_ON);
 
-
-	//if B1 was pressed enter Maintenance State
-	sameplAppSendEvent(EVT_ID_ENTER_MAINTENANCE);
+	checkButtonStatus(buttonInfoB1);
 
 	//if the Sensors has an Error
-	sameplAppSendEvent(EVT_ID_SENSOR_FAILED);
+		//sameplAppSendEvent(EVT_ID_SENSOR_FAILED);
     return 0;
 }
 
@@ -140,14 +148,14 @@ static int32_t onExitOperational(State_t* pState, int32_t eventID)
 	//Do thinks while exit Operational
 
 	//turn LED D0 off
+	ledSetLED(LED0,LED_OFF);
     return 0;
 }
 static int32_t onStateMaintenance(State_t* pState, int32_t eventID)
 {
 	//Flashing LED D0
-
-	//if B1 was pressed leave Maintenance State
-	sameplAppSendEvent(EVT_ID_LEAVE_MAINTENANCE);
+	ledToggleLED(LED0);
+	checkButtonStatus(buttonInfoB1);
     return 0;
 }
 
@@ -164,10 +172,20 @@ static int32_t onEntryFailure(State_t* pState, int32_t eventID)
 {
 	//Perform Failure logic
 
-	//Turn of the motor
+	stopMotor();
 
-	//if System Failure turn LED D2 on
+	//if System Failure
+		//turn LED D2 on
 	//else
-	//turn LED D4 on
+		//turn LED D4 on
     return 0;
+}
+
+static void handleB1Event(int32_t eventID){
+	if(eventID == STATE_ID_MAINTENANCE){
+		sameplAppSendEvent(EVT_ID_LEAVE_MAINTENANCE);
+	}
+	if(eventID == STATE_ID_OPERATIONAL){
+		sameplAppSendEvent(EVT_ID_ENTER_MAINTENANCE);
+	}
 }

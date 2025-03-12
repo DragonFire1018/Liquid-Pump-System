@@ -16,7 +16,8 @@
 #define _BUTTON_MODULE_H_
 
 /***** INCLUDES **************************************************************/
-
+#include "stm32g4xx_hal.h"
+#include "System.h"
 
 /***** CONSTANTS *************************************************************/
 
@@ -33,7 +34,7 @@
  */
 typedef enum _Button_t
 {
-    BTN_B1,
+    BTN_B1,//!< BTN_B1
     BTN_SW1,                        //!< Button used to activate/deactivate the system (SW1)
     BTN_SW2                         //!< Button used for race mode (SW2)
 } Button_t;

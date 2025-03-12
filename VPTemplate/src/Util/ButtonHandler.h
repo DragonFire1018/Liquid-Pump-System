@@ -14,15 +14,12 @@
  *
  *
  *****************************************************************************/
-#ifndef _FILENAME_H
-#define _FILENAME_H
+#ifndef _BUTTONHANDLER_H
+#define _BUTTONHANDLER_H
 
 
 /***** INCLUDES **************************************************************/
-#include "ButtonHandler.h"
-#include "Util/Sensors/FlowRateSensor.h"
-#include "Util/SegmentHandler.h"
-
+#include "ButtonModule.h"
 /***** CONSTANTS *************************************************************/
 
 
@@ -30,10 +27,17 @@
 
 
 /***** TYPES *****************************************************************/
+typedef void (*ButtonAction)(void);
+
+typedef struct{
+	Button_t button;
+	Button_Status_t previousStatus;
+	ButtonAction action;
+} ButtonInfo_t;
 
 
 /***** PROTOTYPES ************************************************************/
-void initalizeMaintenanceManager();
-void maintenanceCycle();
+
+void checkButtonStatus(ButtonInfo_t* buttonInfo);
 
 #endif

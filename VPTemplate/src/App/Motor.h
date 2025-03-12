@@ -19,7 +19,12 @@
 
 
 /***** INCLUDES **************************************************************/
-
+#include "Util/ButtonHandler.h"
+#include <stdbool.h>
+#include "Util/Sensors/SpeedSensor.h"
+#include "Util/Sensors/FlowRateSensor.h"
+#include "LEDModule.h"
+#include "SegmentHandler.h"
 
 /***** CONSTANTS *************************************************************/
 
@@ -31,6 +36,7 @@
 
 
 /***** PROTOTYPES ************************************************************/
+void initalizeMotor();
 void startMotor();
 
 void stopMotor();

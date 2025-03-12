@@ -1,24 +1,23 @@
 /******************************************************************************
- * @file AppTasks.c
+ * @file <Filename>.h
  *
- * @author Andreas Schmidt (a.v.schmidt81@googlemail.com
- * @date   08.02.2025
+ * @author <Author>
+ * @date   <Date>
  *
  * @copyright Copyright (c) 2025
  *
  ******************************************************************************
  *
- * @brief Implementation File for the application tasks
+ * @brief <Some short descrition>
+ *
+ * @details <A more detailed description>
  *
  *
  *****************************************************************************/
 
 
 /***** INCLUDES **************************************************************/
-#include "Scheduler.h"
-#include "AppTasks.h"
-#include "Util/Sensors/SpeedSensor.h"
-#include "Util/Sensors/FlowRateSensor.h"
+#include "ButtonHandler.h"
 
 /***** PRIVATE CONSTANTS *****************************************************/
 
@@ -34,37 +33,18 @@
 
 /***** PRIVATE VARIABLES *****************************************************/
 
-
 /***** PUBLIC FUNCTIONS ******************************************************/
 
-/**
- * @brief Analog and Digital Input Processing
- */
-void taskApp10ms()
-{
-	speedSensorCycle();
-	flowRateSensorCycle();
+void checkButtonStatus(ButtonInfo_t* buttonInfo){
+	Button_Status_t currentStatus = buttonGetButtonStatus(buttonInfo->button);
+
+	// Check condition change from not pressed to pressed
+	if (currentStatus == BUTTON_PRESSED && buttonInfo->previousStatus == BUTTON_RELEASED) {
+	    // Perform action
+	    buttonInfo->action();
+	}
+
+	// Update previous status
+	buttonInfo->previousStatus = currentStatus;
 }
-
-/**
- * @brief Main Application and State Machine
- */
-void taskApp50ms()
-{
-	sampleAppRun();
-}
-
-/**
- * @brief Health-Monitoring (Stack-Monitoring)
- */
-void taskApp250ms()
-{
-
-}
-
-
 /***** PRIVATE FUNCTIONS *****************************************************/
-
-
-
-

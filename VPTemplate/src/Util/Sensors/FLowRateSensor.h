@@ -14,14 +14,13 @@
  *
  *
  *****************************************************************************/
-#ifndef _FILENAME_H
-#define _FILENAME_H
+#ifndef SRC_UTIL_SENSORS_FOWRATESENSOR_H_
+#define SRC_UTIL_SENSORS_FOWRATESENSOR_H_
 
 
 /***** INCLUDES **************************************************************/
-#include "ButtonHandler.h"
-#include "Util/Sensors/FlowRateSensor.h"
-#include "Util/SegmentHandler.h"
+#include "stm32g4xx_hal.h"
+#include "System.h"
 
 /***** CONSTANTS *************************************************************/
 
@@ -33,7 +32,13 @@
 
 
 /***** PROTOTYPES ************************************************************/
-void initalizeMaintenanceManager();
-void maintenanceCycle();
 
-#endif
+
+int32_t flowRateSensorInitialize();
+
+int32_t flowRateSensorCycle();
+
+int32_t flowRateSensorGetFlowRate();
+
+
+#endif /* SRC_UTIL_SENSORS_FOWRATESENSOR_H_ */

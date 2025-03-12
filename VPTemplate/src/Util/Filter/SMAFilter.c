@@ -12,12 +12,14 @@ int32_t filterInitSMA(SMAFilterData_t* pSMA, int32_t scalingFactor, bool resetFi
 	    pSMA->scalingFactor = scalingFactor;
 	    pSMA->sum = 0;
 	    pSMA->windowSize = windowSize;
+	    return FILTER_ERR_OK;
 }
 
 int32_t filterResetSMA(SMAFilterData_t* pSMA){
 	pSMA->firstValueAvailable = false;
 	pSMA->previousValue = 0;
 	pSMA->sum = 0;
+	return FILTER_ERR_OK;
 }
 
 int32_t filterSMA(SMAFilterData_t* pSMA, int32_t sensorValue){

@@ -8,6 +8,10 @@
 #ifndef SRC_UTIL_SENSORS_SPEEDSENSOR_H_
 #define SRC_UTIL_SENSORS_SPEEDSENSOR_H_
 
+/***** INCLUDES **************************************************************/
+#include "stm32g4xx_hal.h"
+#include "System.h"
+
 int32_t speedSensorInitialize();
 
 int32_t speedSensorCycle();

@@ -12,11 +12,14 @@
 
 #include <stdint.h>
 
-/*! @brief Checks for stack overflow, returns 1 if this is the case */
+/* @brief Checks for a stack overflow */
+void checkOverflow();
+
+/* @brief Returns 1 if a stack overflow has been detected */
 _Bool isStackOverflow();
 
-/*! @brief Counts size of free stack, returns amount in Bytes */
-uint32_t countFreeStack();
+/* @brief Counts size of free stack, sends amount in Bytes to a terminal */
+void countFreeStack();
 
 
 #endif /* SRC_SERVICE_STACKMONITORING_H_ */

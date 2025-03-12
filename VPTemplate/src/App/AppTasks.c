@@ -19,6 +19,7 @@
 #include "AppTasks.h"
 #include "Util/Sensors/SpeedSensor.h"
 #include "Util/Sensors/FlowRateSensor.h"
+#include "StackMonitoring.h"
 
 /***** PRIVATE CONSTANTS *****************************************************/
 
@@ -59,7 +60,7 @@ void taskApp50ms()
  */
 void taskApp250ms()
 {
-	isStackOverflow();
+	checkOverflow();
 	countFreeStack();
 }
 

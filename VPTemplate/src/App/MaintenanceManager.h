@@ -22,6 +22,7 @@
 #include "ButtonHandler.h"
 #include "Util/Sensors/FlowRateSensor.h"
 #include "Util/SegmentHandler.h"
+#include "SegmentHandler.h"
 
 /***** CONSTANTS *************************************************************/
 
@@ -35,5 +36,6 @@
 /***** PROTOTYPES ************************************************************/
 void initalizeMaintenanceManager();
 void maintenanceCycle();
+int32_t getFlowRate();
 
 #endif

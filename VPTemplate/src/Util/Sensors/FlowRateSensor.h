@@ -11,6 +11,9 @@
 #include "stm32g4xx_hal.h"
 #include "System.h"
 
+#define MIN_LITER_PER_HOUR			0					// Min revolutions 0 L/h
+#define MAX_LITER_PER_HOUR			80					// Max revolutions 80 L/h
+
 int32_t flowRateSensorInitialize();
 
 int32_t flowRateSensorCycle();

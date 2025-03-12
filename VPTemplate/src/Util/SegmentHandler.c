@@ -6,104 +6,33 @@
  */
 
 #include "SegmentHandler.h"
+static Display_t currentSide = LEFT_DISPLAY;
 
-void displayNumber(uint16_t number, Display_t segementSide)
-{
-    /* Reset all segments on the left */
-    if (segementSide == RIGHT_DISPLAY)
-    {
-    	displayShowDigit(LEFT_DISPLAY,19);
-    }
+void displayDoubleDigitNumber(int16_t number){
+	uint16_t firstPart;
+	uint16_t secondPart;
+	if(number == DISPLAY_NO_MOTOR_SPEED)
+	{
+		firstPart = DIGIT_LOWER_O;
+		secondPart = DIGIT_LOWER_O;
+	}else if(number == DISPLAY_NO_FLOW_RATE){
+			firstPart = DIGIT_DASH;
+			secondPart = DIGIT_DASH;
+	}else{
+		if (number >= 100) {
+			number = number / 10;
+		}
+		firstPart = number / 10;
+		secondPart = number % 10;
+	}
 
-    /* Reset all segments on the right */
-    else
-    {
-    	displayShowDigit(RIGHT_DISPLAY,19);
-    }
 
-    /* Configure segments for each number (0-9) */
-    switch (number)
-    {
-        case 0:
-        	displayShowDigit(segementSide,0);
-        	displayShowDigit(segementSide,1);
-        	displayShowDigit(segementSide,2);
-        	displayShowDigit(segementSide,3);
-        	displayShowDigit(segementSide,4);
-        	displayShowDigit(segementSide,5);
-            break;
-
-        case 1:
-        	displayShowDigit(segementSide,1);
-        	displayShowDigit(segementSide,2);
-            break;
-
-        case 2:
-        	displayShowDigit(segementSide,0);
-        	displayShowDigit(segementSide,1);
-        	displayShowDigit(segementSide,3);
-        	displayShowDigit(segementSide,4);
-        	displayShowDigit(segementSide,6);
-            break;
-
-        case 3:
-        	displayShowDigit(segementSide,0);
-        	displayShowDigit(segementSide,1);
-        	displayShowDigit(segementSide,2);
-        	displayShowDigit(segementSide,3);
-        	displayShowDigit(segementSide,6);
-            break;
-
-        case 4:
-        	displayShowDigit(segementSide,1);
-            displayShowDigit(segementSide,3);
-            displayShowDigit(segementSide,5);
-            displayShowDigit(segementSide,6);
-            break;
-
-        case 5:
-        	displayShowDigit(segementSide,0);
-        	displayShowDigit(segementSide,2);
-        	displayShowDigit(segementSide,3);
-        	displayShowDigit(segementSide,5);
-        	displayShowDigit(segementSide,6);
-            break;
-
-        case 6:
-        	displayShowDigit(segementSide,0);
-        	displayShowDigit(segementSide,2);
-        	displayShowDigit(segementSide,3);
-        	displayShowDigit(segementSide,4);
-        	displayShowDigit(segementSide,5);
-        	displayShowDigit(segementSide,6);
-            break;
-
-        case 7:
-        	displayShowDigit(segementSide,0);
-        	displayShowDigit(segementSide,1);
-        	displayShowDigit(segementSide,2);
-            displayShowDigit(segementSide,5);
-            break;
-
-        case 8:
-        	displayShowDigit(segementSide,0);
-        	displayShowDigit(segementSide,1);
-        	displayShowDigit(segementSide,2);
-        	displayShowDigit(segementSide,3);
-        	displayShowDigit(segementSide,4);
-        	displayShowDigit(segementSide,5);
-        	displayShowDigit(segementSide,6);
-            break;
-
-        case 9:
-        	displayShowDigit(segementSide,0);
-        	displayShowDigit(segementSide,1);
-        	displayShowDigit(segementSide,2);
-        	displayShowDigit(segementSide,3);
-        	displayShowDigit(segementSide,5);
-        	displayShowDigit(segementSide,6);
-            break;
-    }
+	if(currentSide == LEFT_DISPLAY){
+		displayShowDigit(RIGHT_DISPLAY,secondPart);
+		currentSide = RIGHT_DISPLAY;
+	}else{
+		displayShowDigit(LEFT_DISPLAY,firstPart);
+		currentSide = LEFT_DISPLAY;
+	}
 }
-
 

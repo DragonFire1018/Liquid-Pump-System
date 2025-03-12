@@ -19,6 +19,24 @@
 /***** INCLUDES **************************************************************/
 #include "Motor.h"
 
+/***** PRIVATE DEFINES *****************************************************/
+#define SPEED_THRESHOLD_700 700
+#define SPEED_THRESHOLD_900 900
+#define SPEED_THRESHOLD_800 800
+#define SPEED_THRESHOLD_650 650
+
+#define MOTOR_SPEED_RANGE_200 200
+#define MOTOR_SPEED_RANGE_400 400
+#define MOTOR_SPEED_RANGE_600 600
+
+#define FLOW_RATE_RANGE_20 20
+#define FLOW_RATE_RANGE_50 50
+#define FLOW_RATE_RANGE_75 75
+#define FLOW_RATE_RANGE_80 80
+
+#define TIME_THRESHOLD_5SEC 100
+#define TIME_THRESHOLD_3SEC 60
+
 /***** PRIVATE CONSTANTS *****************************************************/
 
 
@@ -33,75 +51,107 @@
 
 /***** PRIVATE VARIABLES *****************************************************/
 static bool status;
-static ButtonInfo_t* buttonInfoSW1;
-static ButtonInfo_t* buttonInfoSW2;
-
+static bool statusLED1;
+static ButtonInfo_t buttonInfoSW1;
+static ButtonInfo_t buttonInfoSW2;
+static uint32_t counter1;
+static uint32_t counter2;
+static uint32_t counter3;
+static uint32_t counter4;
+static uint32_t counter5;
 /***** PUBLIC FUNCTIONS ******************************************************/
 void initalizeMotor(){
-	buttonInfoSW1->button = BTN_SW1;
-	buttonInfoSW1->previousStatus = BUTTON_RELEASED;
-	buttonInfoSW1->action = startMotor;
+	buttonInfoSW1.button = BTN_SW1;
+	buttonInfoSW1.previousStatus = BUTTON_RELEASED;
+	buttonInfoSW1.action = startMotor;
 
-	buttonInfoSW2->button = BTN_SW1;
-	buttonInfoSW2->previousStatus = BUTTON_RELEASED;
-	buttonInfoSW2->action = stopMotor;
+	buttonInfoSW2.button = BTN_SW2;
+	buttonInfoSW2.previousStatus = BUTTON_RELEASED;
+	buttonInfoSW2.action = stopMotor;
 }
 void startMotor(){
-	status = true;
-	ledToggleLED(LED3);
+	if(flowRateSensorGetFlowRate()  > 0 && getFlowRate() > 0){
+		status = true;
+		ledToggleLED(LED3);
+	}
 }
 
 void motorCycle(){
-	checkButtonStatus(buttonInfoSW1);
-	checkButtonStatus(buttonInfoSW2);
-	if(status == true)
+	checkButtonStatus(&buttonInfoSW1,0);
+	checkButtonStatus(&buttonInfoSW2,0);
+	int flowRate = flowRateSensorGetFlowRate();
+	int motorSpeed = speedSensorGetSpeed();
+	if(motorSpeed  == 0)
 	{
-		int flowRate = flowRateSensorGetFlowRate();
-		int motorSpeed = speedSensorGetSpeed();
-		if(flowRate  == 0)
-		{
-			//display "oo"on the 7-Seg
+		status = false;
+		//display "oo"on the 7-Seg
+		displayDoubleDigitNumber(DISPLAY_NO_MOTOR_SPEED);
+	}
+	else
+	{
+		displayDoubleDigitNumber(motorSpeed);
+		if(getFlowRate() == flowRateSensorGetFlowRate()){
+			ledSetLED(LED3,LED_ON);
 		}
-		else
-		{
-			//else if the Flow Rate is reached
-				//stop Flashing LED D3 just turn it on
-			//else If the motor speed is > 700 rpm for at least 5 seconds
-				//the Warning LED should be turned on
-			//else If the motor speed is > 900 rpm for at least 3 seconds
-				//the Warning LED should flash
-			//else If the motor speed is < 800 rpm for at least 3 seconds
-				//the Warning LED should be switched from flashing to on
-			//else If the motor speed is < 650 rpm for at least 3 seconds
-				//the Warning LED should be turned off
 
-			if (motorSpeed <= 200) {
-			    int flowRate = (motorSpeed * 20) / 200; // Skaliert auf 0-20 L/h
-			    displayDoubleDigitNumber(flowRate);
-			} else if (motorSpeed <= 400) {
-			    int flowRate = 20 + ((motorSpeed - 200) * 30) / 200; // Skaliert auf 20-50 L/h
-			    displayDoubleDigitNumber(flowRate);
-			} else if (motorSpeed <= 600) {
-			    int flowRate = 50 + ((motorSpeed - 400) * 25) / 200; // Skaliert auf 50-75 L/h
-			    displayDoubleDigitNumber(flowRate);
-			} else {
-			    int flowRate = 75 + ((motorSpeed - 600) * 5) / (motorSpeed - 600); // Skaliert auf 75-80 L/h
-			    displayDoubleDigitNumber(flowRate);
+		if(motorSpeed > SPEED_THRESHOLD_700 ){
+			counter1++;
+			if(counter1==TIME_THRESHOLD_5SEC){
+				ledSetLED(LED1,LED_ON);
+				counter1 = 0;
 			}
-			//if the condistions above are not reached
-						//Turn on LED D1
-					//else if LED D1 is on
-						//Turn of LED D1
+		}else if(motorSpeed > SPEED_THRESHOLD_900 ){
+			counter2++;
+			if(counter2==TIME_THRESHOLD_3SEC){
+				ledToggleLED(LED1);
+				counter2 = 0;
+			}
+		}else if(motorSpeed < SPEED_THRESHOLD_800){
+			counter3++;
+			if(counter3==TIME_THRESHOLD_3SEC){
+				ledSetLED(LED1,LED_ON);
+				counter3 = 0;
+			}
+		}else if(motorSpeed < SPEED_THRESHOLD_650){
+			counter4++;
+			if(counter4==TIME_THRESHOLD_3SEC){
+				ledSetLED(LED1,LED_OFF);
+				counter4 = 0;
+			}
+		}else{
+			counter1 = 0;
+			counter2 = 0;
+			counter3 = 0;
+			counter4 = 0;
+			ledSetLED(LED1,LED_OFF);
+		}
+
+		if (((0 < motorSpeed && motorSpeed <= MOTOR_SPEED_RANGE_200) && (0 < flowRate && flowRate < FLOW_RATE_RANGE_20))
+				|| ((MOTOR_SPEED_RANGE_200 < motorSpeed && motorSpeed <= MOTOR_SPEED_RANGE_400) && (FLOW_RATE_RANGE_20 < flowRate && flowRate <= FLOW_RATE_RANGE_50))
+				|| ((MOTOR_SPEED_RANGE_400 < motorSpeed && motorSpeed <= MOTOR_SPEED_RANGE_600) && (FLOW_RATE_RANGE_50 < flowRate &&  flowRate <= FLOW_RATE_RANGE_75))
+				|| (MOTOR_SPEED_RANGE_600 < motorSpeed && flowRate <= FLOW_RATE_RANGE_80))
+		{
+			ledSetLED(LED1,LED_ON);
+			statusLED1 = true;
+		}else if(statusLED1){
+			ledSetLED(LED1,LED_OFF);
+			statusLED1 = false;
 		}
 	}
-	//if(status == false && /* the flow rate ist valid, for 5sec */){
-		//startMotor();
-	//}
+	if(status == false){
+		counter5++;
+		if(counter5==TIME_THRESHOLD_5SEC){
+			startMotor();
+			counter5 = 0;
+		}
+	}else{
+		counter5 = 0;
+	}
 }
 
 void stopMotor(){
 	status = false;
-	//turn LED D3 Off
+	ledSetLED(LED3,LED_OFF);
 }
 
 

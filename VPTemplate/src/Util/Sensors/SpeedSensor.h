@@ -12,6 +12,9 @@
 #include "stm32g4xx_hal.h"
 #include "System.h"
 
+#define MIN_REVOLUTIONS			0			// Min revolutions 0rpm
+#define MAX_REVOLUTIONS			1000		// Max revolutions 1000rpm
+
 int32_t speedSensorInitialize();
 
 int32_t speedSensorCycle();

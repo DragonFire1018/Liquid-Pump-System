@@ -24,7 +24,7 @@ int32_t filterResetEMA(EMAFilterData_t* pEMA){
 }
 
 int32_t filterEMA(EMAFilterData_t* pEMA, int32_t sensorValue){
-	int32_t returnValue;
+	int32_t returnValue = 0;
 
 	int32_t scaledSensorValue = sensorValue * pEMA->scalingFactor;
 	if(!pEMA->firstValueAvailable){
@@ -36,5 +36,5 @@ int32_t filterEMA(EMAFilterData_t* pEMA, int32_t sensorValue){
 
 	pEMA->previousValue = returnValue;
 
-	return FILTER_ERR_OK;
+	return returnValue;
 }

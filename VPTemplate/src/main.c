@@ -29,8 +29,6 @@
 #include "TimerModule.h"
 //#include "DisplayModule.h"
 #include "Scheduler.h"
-#include "Util/Sensors/SpeedSensor.h"
-#include "Util/Sensors/FlowRateSensor.h"
 #include "StackMonitoring.h"
 
 #include "GlobalObjects.h"
@@ -97,6 +95,7 @@ int main(void)
     // Initialize Scheduler
     schedInitialize(&gScheduler);
 
+
     // Prepare Scheduler
     gScheduler.pGetHALTick = HAL_GetTick;
     gScheduler.pTask_10ms = taskApp10ms;
@@ -135,6 +134,9 @@ static int32_t initializePeripherals()
     // Initialize Timer, DMA and ADC for sensor measurements
     timerInitialize();
     adcInitialize();
+
+    // Initialize Application
+    sampleAppInitialize();
 
     return ERROR_OK;
 }

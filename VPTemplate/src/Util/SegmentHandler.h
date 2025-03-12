@@ -9,7 +9,8 @@
 #define SRC_UTIL_SEGMENTHANDLER_H_
 #include "DisplayModule.h"
 
-void displaySingleDigitNumber(uint16_t number, Display_t segementSide);
+#define DISPLAY_NO_MOTOR_SPEED -1
+#define DISPLAY_NO_FLOW_RATE   -2
 
-void displayDoubleDigitNumber(uint16_t number);
+void displayDoubleDigitNumber(int16_t number);
 #endif /* SRC_UTIL_SEGMENTHANDLER_H_ */

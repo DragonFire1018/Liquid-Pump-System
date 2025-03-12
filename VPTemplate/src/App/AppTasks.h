@@ -19,6 +19,7 @@
 /***** INCLUDES **************************************************************/
 #include <stdint.h>
 #include "Application.h"
+#include "StackMonitoring.h"
 
 /***** CONSTANTS *************************************************************/
 

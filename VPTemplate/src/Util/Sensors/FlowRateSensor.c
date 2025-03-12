@@ -14,8 +14,6 @@
 
 
 /***** PRIVATE MACROS ********************************************************/
-#define MIN_LITER_PER_HOUR			0					// Min revolutions 0 L/h
-#define MAX_LITER_PER_HOUR			80					// Max revolutions 80 L/h
 
 #define MIN_OUTPUT_MICRO_VOLTAGE 500000 				//Min output voltage 0.5
 #define MAX_OUTPUT_MICRO_VOLTAGE 2500000 				//Max output voltage 2.5

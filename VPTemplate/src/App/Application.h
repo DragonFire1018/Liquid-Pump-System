@@ -19,6 +19,11 @@
 #include <stdint.h>
 #include "Motor.h"
 #include "MaintenanceManager.h"
+#include "StackMonitoring.h"
+#include "ButtonHandler.h"
+#include "Util/Sensors/SpeedSensor.h"
+#include "Util/Sensors/FlowRateSensor.h"
+
 
 /***** CONSTANTS *************************************************************/
 
@@ -30,7 +35,7 @@
 #define STATE_ID_FAILURE        		4       //!< Example State for Failure
 
 #define EVT_ID_SYSTEM_OK       	 	1      //!< Event ID for System OK
-#define EVT_ID_SENSOR_FAILED     	2      //!< Event ID for Sensor Failure
+#define EVT_ID_SYSTEM_FAILED     	2      //!< Event ID for Sensor Failure
 #define EVT_ID_ENTER_MAINTENANCE 	3		//!< Event ID for Enter Maintenance
 #define EVT_ID_LEAVE_MAINTENANCE 	4		//!< Event ID for LEAVE MAINTENANCE
 

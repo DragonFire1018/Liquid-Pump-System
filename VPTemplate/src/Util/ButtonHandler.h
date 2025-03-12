@@ -38,6 +38,6 @@ typedef struct{
 
 /***** PROTOTYPES ************************************************************/
 
-void checkButtonStatus(ButtonInfo_t* buttonInfo, int32_t actionValue);
+Button_Status_t checkButtonStatus(ButtonInfo_t* buttonInfo, int32_t actionValue);
 
 #endif

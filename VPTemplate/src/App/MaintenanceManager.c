@@ -33,28 +33,34 @@ static void handleSW1Event();
 static void handleSW2Event();
 
 /***** PRIVATE VARIABLES *****************************************************/
-static ButtonInfo_t* buttonInfoSW1;
-static ButtonInfo_t* buttonInfoSW2;
-static int32_t flowRate = 0;
+static ButtonInfo_t buttonInfoSW1;
+static ButtonInfo_t buttonInfoSW2;
+static int32_t flowRate;
 
 /***** PUBLIC FUNCTIONS ******************************************************/
 void initalizeMaintenanceManager(){
-	buttonInfoSW1->button = BTN_SW1;
-	buttonInfoSW1->previousStatus = BUTTON_RELEASED;
-	buttonInfoSW1->action = handleSW1Event;
+	flowRate = 0;
+	buttonInfoSW1.button = BTN_SW1;
+	buttonInfoSW1.previousStatus = BUTTON_RELEASED;
+	buttonInfoSW1.action = handleSW1Event;
 
-	buttonInfoSW2->button = BTN_SW2;
-	buttonInfoSW2->previousStatus = BUTTON_RELEASED;
-	buttonInfoSW2->action = handleSW2Event;
+	buttonInfoSW2.button = BTN_SW2;
+	buttonInfoSW2.previousStatus = BUTTON_RELEASED;
+	buttonInfoSW2.action = handleSW2Event;
 }
 void maintenanceCycle(){
-	if(flowRate == 0){
+	checkButtonStatus(&buttonInfoSW1,0);
+	checkButtonStatus(&buttonInfoSW2,0);
+	if(flowRate <= 0){
 		//display "--"
+		displayDoubleDigitNumber(DISPLAY_NO_FLOW_RATE);
 	}else{
 		displayDoubleDigitNumber(flowRate);
 	}
 }
-
+int32_t getFlowRate(){
+	return flowRate;
+}
 /***** PRIVATE FUNCTIONS *****************************************************/
 
 static void handleSW1Event(){

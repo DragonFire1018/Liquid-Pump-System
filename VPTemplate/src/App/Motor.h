@@ -25,6 +25,7 @@
 #include "Util/Sensors/FlowRateSensor.h"
 #include "LEDModule.h"
 #include "SegmentHandler.h"
+#include "MaintenanceManager.h"
 
 /***** CONSTANTS *************************************************************/
 
@@ -38,7 +39,7 @@
 /***** PROTOTYPES ************************************************************/
 void initalizeMotor();
 void startMotor();
-
+void motorCycle();
 void stopMotor();
 
 #endif

@@ -59,7 +59,8 @@ void taskApp50ms()
  */
 void taskApp250ms()
 {
-
+	isStackOverflow();
+	countFreeStack();
 }
 
 

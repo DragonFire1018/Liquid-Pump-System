@@ -35,13 +35,13 @@
 
 /***** PUBLIC FUNCTIONS ******************************************************/
 
-void checkButtonStatus(ButtonInfo_t* buttonInfo){
+void checkButtonStatus(ButtonInfo_t* buttonInfo, int32_t actionValue){
 	Button_Status_t currentStatus = buttonGetButtonStatus(buttonInfo->button);
 
 	// Check condition change from not pressed to pressed
 	if (currentStatus == BUTTON_PRESSED && buttonInfo->previousStatus == BUTTON_RELEASED) {
 	    // Perform action
-	    buttonInfo->action();
+	    buttonInfo->action(actionValue);
 	}
 
 	// Update previous status

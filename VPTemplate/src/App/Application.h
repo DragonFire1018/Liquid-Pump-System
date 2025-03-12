@@ -17,7 +17,7 @@
 
 /***** INCLUDES **************************************************************/
 #include <stdint.h>
-#include "motor.h"
+#include "Motor.h"
 #include "MaintenanceManager.h"
 
 /***** CONSTANTS *************************************************************/

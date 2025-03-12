@@ -27,7 +27,7 @@
 
 
 /***** TYPES *****************************************************************/
-typedef void (*ButtonAction)(void);
+typedef void (*ButtonAction)(int32_t);
 
 typedef struct{
 	Button_t button;
@@ -38,6 +38,6 @@ typedef struct{
 
 /***** PROTOTYPES ************************************************************/
 
-void checkButtonStatus(ButtonInfo_t* buttonInfo);
+void checkButtonStatus(ButtonInfo_t* buttonInfo, int32_t actionValue);
 
 #endif

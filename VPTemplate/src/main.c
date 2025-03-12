@@ -27,14 +27,11 @@
 #include "LEDModule.h"
 #include "ADCModule.h"
 #include "TimerModule.h"
-#include "DisplayModule.h"
+//#include "DisplayModule.h"
 #include "Scheduler.h"
-<<<<<<< HEAD
-=======
 #include "Util/Sensors/SpeedSensor.h"
 #include "Util/Sensors/FlowRateSensor.h"
 #include "StackMonitoring.h"
->>>>>>> c43be31da453cdc527f09d670ed3557edcfc244c
 
 #include "GlobalObjects.h"
 #include "AppTasks.h"
@@ -60,8 +57,7 @@ static Scheduler gScheduler;            // Global Scheduler instance
 /***** PUBLIC FUNCTIONS ******************************************************/
 
 /**
-<<<<<<< HEAD
-=======
+
  * @brief Analog and Digital Input Processing
  */
 void runAnalogDigitalInputProccessing()
@@ -81,8 +77,7 @@ void runStateMachine()
  */
 void runHealthMonitoring()
 {
-	isStackOverflow();
-	countFreeStack();
+
 }
 
 /**

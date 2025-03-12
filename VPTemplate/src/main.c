@@ -29,6 +29,12 @@
 #include "TimerModule.h"
 #include "DisplayModule.h"
 #include "Scheduler.h"
+<<<<<<< HEAD
+=======
+#include "Util/Sensors/SpeedSensor.h"
+#include "Util/Sensors/FlowRateSensor.h"
+#include "StackMonitoring.h"
+>>>>>>> c43be31da453cdc527f09d670ed3557edcfc244c
 
 #include "GlobalObjects.h"
 #include "AppTasks.h"
@@ -54,6 +60,33 @@ static Scheduler gScheduler;            // Global Scheduler instance
 /***** PUBLIC FUNCTIONS ******************************************************/
 
 /**
+<<<<<<< HEAD
+=======
+ * @brief Analog and Digital Input Processing
+ */
+void runAnalogDigitalInputProccessing()
+{
+	//speedSensorCycle();
+	//flowRatespeedSensorCycle();
+}
+/**
+ * @brief Main Application and State Machine
+ */
+void runStateMachine()
+{
+	//sampleAppRun();
+}
+/**
+ * @brief Health-Monitoring (Stack-Monitoring)
+ */
+void runHealthMonitoring()
+{
+	isStackOverflow();
+	countFreeStack();
+}
+
+/**
+>>>>>>> c43be31da453cdc527f09d670ed3557edcfc244c
  * @brief Main function of System
  */
 int main(void)

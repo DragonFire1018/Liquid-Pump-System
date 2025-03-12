@@ -70,6 +70,8 @@ CFLAGS += -I$(SRC_DIR)/Service/Sensor
 CFLAGS += -I$(SRC_DIR)/Service/Util
 # Include files for Utils
 CFLAGS += -I$(SRC_DIR)/Util
+# Include files for Sensors
+CFLAGS += -I$(SRC_DIR)/Util/Sensors
 
 
 #

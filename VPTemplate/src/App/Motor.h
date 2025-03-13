@@ -26,6 +26,7 @@
 #include "LEDModule.h"
 #include "SegmentHandler.h"
 #include "MaintenanceManager.h"
+#include "DebugMode.h"
 
 /***** CONSTANTS *************************************************************/
 

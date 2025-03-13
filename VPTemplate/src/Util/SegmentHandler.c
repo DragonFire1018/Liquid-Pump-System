@@ -8,7 +8,7 @@
 #include "SegmentHandler.h"
 static Display_t currentSide = LEFT_DISPLAY;
 
-void displayDoubleDigitNumber(int16_t number){
+void displayDoubleDigitNumber(int16_t number,ADC_TYPE adcType){
 	uint16_t firstPart;
 	uint16_t secondPart;
 	if(number == DISPLAY_NO_MOTOR_SPEED)
@@ -19,7 +19,7 @@ void displayDoubleDigitNumber(int16_t number){
 			firstPart = DIGIT_DASH;
 			secondPart = DIGIT_DASH;
 	}else{
-		if (number >= 100) {
+		if (number >= 100 || adcType == SPEED) {
 			number = number / 10;
 		}
 		firstPart = number / 10;

@@ -123,11 +123,13 @@ int32_t sameplAppSendEvent(int32_t eventID)
 
 static int32_t onEntryBootUp(State_t* pState, int32_t eventID)
 {
-	outputLog("Enter BootUp State");
+#if DEBUG_MODE == 1
+	outputLog("\n\rEnter BootUp State");
+#endif
 	flowRateSensorInitialize();
 	speedSensorInitialize();
-	if((speedSensorGetSpeed() >= MIN_REVOLUTIONS && speedSensorGetSpeed() <= MAX_LITER_PER_HOUR)
-			&& (flowRateSensorGetFlowRate() >= MIN_LITER_PER_HOUR && flowRateSensorGetFlowRate() <= MAX_LITER_PER_HOUR)){
+	if((adcReadChannel(ADC_INPUT0) >= MIN_OUTPUT_MICRO_VOLTAGE && adcReadChannel(ADC_INPUT0) <= MAX_OUTPUT_MICRO_VOLTAGE)
+			&& (adcReadChannel(ADC_INPUT1) >= MIN_OUTPUT_MICRO_VOLTAGE && adcReadChannel(ADC_INPUT1) <= MAX_OUTPUT_MICRO_VOLTAGE)){
 		initalizeMaintenanceManager();
 		initalizeMotor();
 		sameplAppSendEvent(EVT_ID_SYSTEM_OK);
@@ -144,6 +146,10 @@ static int32_t onStateOperational(State_t* pState, int32_t eventID)
 {
 	ledSetLED(LED0,LED_ON);
 	buttonInfoB1.previousStatus = checkButtonStatus(&buttonInfoB1,EVT_ID_ENTER_MAINTENANCE);
+	if(!((adcReadChannel(ADC_INPUT0) >= MIN_OUTPUT_MICRO_VOLTAGE && adcReadChannel(ADC_INPUT0) <= MAX_OUTPUT_MICRO_VOLTAGE)
+					&& (adcReadChannel(ADC_INPUT1) >= MIN_OUTPUT_MICRO_VOLTAGE && adcReadChannel(ADC_INPUT1) <= MAX_OUTPUT_MICRO_VOLTAGE))){
+			sameplAppSendEvent(EVT_ID_SYSTEM_FAILED);
+	}
 	bool motorCycleStatus = motorCycle();
 	if(!motorCycleStatus){
 		sameplAppSendEvent(EVT_ID_SYSTEM_FAILED);
@@ -157,7 +163,9 @@ static int32_t onStateOperational(State_t* pState, int32_t eventID)
 
 static int32_t onExitOperational(State_t* pState, int32_t eventID)
 {
-	outputLog("Exit Operational State");
+#if DEBUG_MODE == 1
+	outputLog("\n\rExit Operational State");
+#endif
 	ledSetLED(LED0,LED_OFF);
     return 0;
 }
@@ -171,14 +179,18 @@ static int32_t onStateMaintenance(State_t* pState, int32_t eventID)
 
 static int32_t onExitMaintenance(State_t* pState, int32_t eventID)
 {
-	outputLog("Exit Maintenance State");
+#if DEBUG_MODE == 1
+	outputLog("\n\rExit Maintenance State");
+#endif
 	ledSetLED(LED0,LED_OFF);
     return 0;
 }
 
 static int32_t onEntryFailure(State_t* pState, int32_t eventID)
 {
-	outputLog("Enter Failure State");
+#if DEBUG_MODE == 1
+	outputLog("\n\rEnter Failure State");
+#endif
 	stopMotor();
 	if(isSystemFailure){
 		ledSetLED(LED2,LED_ON);
@@ -196,11 +208,15 @@ static void buttonB1Handler(int32_t eventID){
 	}
 }
 static int32_t onEntryOperational(State_t* pState, int32_t eventID){
-	outputLog("Enter Operational State");
+#if DEBUG_MODE == 1
+	outputLog("\n\rEnter Operational State");
+#endif
 	return 0;
 }
 static int32_t onEntryMaintenance(State_t* pState, int32_t eventID){
-	outputLog("Enter Maintenance State");
+#if DEBUG_MODE == 1
+	outputLog("\n\rEnter Maintenance State");
+#endif
 	return 0;
 }
 

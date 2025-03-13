@@ -19,6 +19,12 @@
 /***** INCLUDES **************************************************************/
 #include "MaintenanceManager.h"
 
+/***** PRIVATE DEFINES *****************************************************/
+
+#define MAX_FLOW_RATE 80
+#define MIN_FOW_RATE 0
+#define RANGE_VALUE 5
+
 /***** PRIVATE CONSTANTS *****************************************************/
 
 
@@ -51,11 +57,11 @@ void initalizeMaintenanceManager(){
 void maintenanceCycle(){
 	checkButtonStatus(&buttonInfoSW1,0);
 	checkButtonStatus(&buttonInfoSW2,0);
-	if(flowRate <= 0){
+	if(flowRate <= MIN_FOW_RATE){
 		//display "--"
-		displayDoubleDigitNumber(DISPLAY_NO_FLOW_RATE);
+		displayDoubleDigitNumber(DISPLAY_NO_FLOW_RATE,FLOW_RATE);
 	}else{
-		displayDoubleDigitNumber(flowRate);
+		displayDoubleDigitNumber(flowRate,FLOW_RATE);
 	}
 }
 int32_t getFlowRate(){
@@ -65,9 +71,13 @@ int32_t getFlowRate(){
 
 static void handleSW1Event(){
 	//increase the flow rate by 5 L/h
-	flowRate += 5;
+	if((flowRate+RANGE_VALUE) <= MAX_FLOW_RATE){
+		flowRate += RANGE_VALUE;
+	}
 }
 static void handleSW2Event(){
 	//decrease the flow rate by 5 L/h
-	flowRate -= 5;
+	if((flowRate-RANGE_VALUE) >= MIN_FOW_RATE){
+			flowRate -= RANGE_VALUE;
+	}
 }

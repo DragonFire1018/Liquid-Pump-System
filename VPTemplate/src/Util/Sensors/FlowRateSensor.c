@@ -15,9 +15,6 @@
 
 /***** PRIVATE MACROS ********************************************************/
 
-#define MIN_OUTPUT_MICRO_VOLTAGE 500000 				//Min output voltage 0.5
-#define MAX_OUTPUT_MICRO_VOLTAGE 2500000 				//Max output voltage 2.5
-
 #define MICROVOLTAGE_TO_LITER_PER_HOUR 0.00004
 /***** PRIVATE TYPES *********************************************************/
 
@@ -50,7 +47,7 @@ int32_t flowRateSensorInitialize()
 
 int32_t flowRateSensorCycle()
 {
-	gSensorVoltage 				= adcReadChannel(ADC_INPUT0);
+	gSensorVoltage 				= adcReadChannel(ADC_INPUT1);
 	gSensorVoltageFiltered		= gSensorVoltage; //filterSMA(&gSensorSMAFilter, gSensorVoltage);
 
 	gSensorFlowRate = sensorCalculateFlowRate(gSensorVoltageFiltered);
@@ -71,7 +68,7 @@ static int32_t sensorCalculateFlowRate(int32_t inputVoltage)
 	int32_t speedValue;
 
 	if(inputVoltage < MAX_OUTPUT_MICRO_VOLTAGE && inputVoltage > MIN_OUTPUT_MICRO_VOLTAGE){
-		speedValue = inputVoltage*MICROVOLTAGE_TO_LITER_PER_HOUR;
+		speedValue = (inputVoltage-MIN_OUTPUT_MICRO_VOLTAGE)*MICROVOLTAGE_TO_LITER_PER_HOUR;
 	}
 	return speedValue;
 }

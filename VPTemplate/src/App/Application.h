@@ -23,6 +23,9 @@
 #include "ButtonHandler.h"
 #include "Util/Sensors/SpeedSensor.h"
 #include "Util/Sensors/FlowRateSensor.h"
+#include "ADCModule.h"
+#include "Service/Util/LogOutput.h"
+#include "DebugMode.h"
 
 
 /***** CONSTANTS *************************************************************/

@@ -22,9 +22,6 @@
 
 /***** PRIVATE MACROS ********************************************************/
 
-#define MIN_OUTPUT_MICRO_VOLTAGE 500000 				//Min output voltage 0.5
-#define MAX_OUTPUT_MICRO_VOLTAGE 2500000				//Max output voltage 2.5
-
 #define MICROVOLTAGE_TO_REVOLUTIONS 0.0005
 /***** PRIVATE TYPES *********************************************************/
 
@@ -78,7 +75,7 @@ static int32_t sensorCalculateSpeed(int32_t inputVoltage)
 	int32_t speedValue;
 
 	if(inputVoltage < MAX_OUTPUT_MICRO_VOLTAGE && inputVoltage > MIN_OUTPUT_MICRO_VOLTAGE){
-		speedValue = inputVoltage*MICROVOLTAGE_TO_REVOLUTIONS;
+		speedValue = (inputVoltage-MIN_OUTPUT_MICRO_VOLTAGE)*MICROVOLTAGE_TO_REVOLUTIONS;
 	}
 	return speedValue;
 }

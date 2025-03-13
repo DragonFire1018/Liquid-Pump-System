@@ -90,21 +90,26 @@ bool motorCycle(){
 	{
 		motorStatus = false;
 		//display "oo"on the 7-Seg
-		displayDoubleDigitNumber(DISPLAY_NO_MOTOR_SPEED);
+		displayDoubleDigitNumber(DISPLAY_NO_MOTOR_SPEED,SPEED);
 	}
 	else
 	{
-		displayDoubleDigitNumber(motorSpeed);
-  		if((-5 <= (sensorflowRate - flowRate)) && ((sensorflowRate - flowRate) <= 5)){
+		displayDoubleDigitNumber(motorSpeed,SPEED);
+  		if((-5 <= (sensorflowRate - flowRate)) && ((sensorflowRate - flowRate) <= 5) && motorStatus == true){
 			ledSetLED(LED3,LED_ON);
 			toggleLED3 = false;
+		}else{
+			toggleLED3 = true;
 		}
   		if(motorSpeed >= 1000){
   			return false;
   		}
   		if(motorSpeed > SPEED_THRESHOLD_900 ){
   					counter2++;
-  					if(counter2==TIME_THRESHOLD_3SEC){
+  					if(counter2>=TIME_THRESHOLD_3SEC){
+#if DEBUG_MODE == 1
+	outputLog("\n\rWarning: Very high motor speed.");
+#endif
   						toggleLED1 = true;
   						counter2 = 0;
   					}
@@ -113,17 +118,19 @@ bool motorCycle(){
   					counter4 = 0;
   		}else if(motorSpeed > SPEED_THRESHOLD_700 ){
   					counter1++;
-  					if(counter1==TIME_THRESHOLD_5SEC){
+  					if(counter1>=TIME_THRESHOLD_5SEC){
   						ledSetLED(LED1,LED_ON);
   						counter1 = 0;
+#if DEBUG_MODE == 1
+	outputLog("\n\rWarning: High motor speed.");
+#endif
   					}
   					counter2 = 0;
-  					counter3 = 0;
   					counter4 = 0;
   		}
   		if(motorSpeed < SPEED_THRESHOLD_650){
   					counter4++;
-  					if(counter4==TIME_THRESHOLD_3SEC){
+  					if(counter4>=TIME_THRESHOLD_3SEC){
   						ledSetLED(LED1,LED_OFF);
   						counter4 = 0;
   					}
@@ -132,27 +139,32 @@ bool motorCycle(){
   					counter3 = 0;
   		}else if(motorSpeed < SPEED_THRESHOLD_800){
   					counter3++;
-  					if(counter3==TIME_THRESHOLD_3SEC){
+  					if(counter3>=TIME_THRESHOLD_3SEC){
+#if DEBUG_MODE == 1
+	outputLog("\n\rWarning: High motor speed.");
+#endif
   						toggleLED1 = false;
   						ledSetLED(LED1,LED_ON);
   						counter3 = 0;
   					}
-  					counter1 = 0;
   					counter2 = 0;
   					counter4 = 0;
   		}
 
-		/*if (((0 < motorSpeed && motorSpeed <= MOTOR_SPEED_RANGE_200) && (0 < flowRate && flowRate < FLOW_RATE_RANGE_20))
-				|| ((MOTOR_SPEED_RANGE_200 < motorSpeed && motorSpeed <= MOTOR_SPEED_RANGE_400) && (FLOW_RATE_RANGE_20 < flowRate && flowRate <= FLOW_RATE_RANGE_50))
-				|| ((MOTOR_SPEED_RANGE_400 < motorSpeed && motorSpeed <= MOTOR_SPEED_RANGE_600) && (FLOW_RATE_RANGE_50 < flowRate &&  flowRate <= FLOW_RATE_RANGE_75))
-				|| (MOTOR_SPEED_RANGE_600 < motorSpeed && flowRate <= FLOW_RATE_RANGE_80))
+		if (((0 < motorSpeed && motorSpeed <= MOTOR_SPEED_RANGE_200) && (0 < sensorflowRate && sensorflowRate <= FLOW_RATE_RANGE_20))
+				|| ((MOTOR_SPEED_RANGE_200 < motorSpeed && motorSpeed <= MOTOR_SPEED_RANGE_400) && (FLOW_RATE_RANGE_20 < sensorflowRate && sensorflowRate <= FLOW_RATE_RANGE_50))
+				|| ((MOTOR_SPEED_RANGE_400 < motorSpeed && motorSpeed <= MOTOR_SPEED_RANGE_600) && (FLOW_RATE_RANGE_50 < sensorflowRate &&  sensorflowRate <= FLOW_RATE_RANGE_75))
+				|| (MOTOR_SPEED_RANGE_600 < motorSpeed && sensorflowRate <= FLOW_RATE_RANGE_80))
 		{
-			ledSetLED(LED1,LED_ON);
-			statusLED1 = true;
-		}else if(statusLED1){
 			ledSetLED(LED1,LED_OFF);
 			statusLED1 = false;
-		}*/
+		}else if(!statusLED1){
+#if DEBUG_MODE == 1
+	outputLog("\n\rMotor speed and flow rate mismatch.");
+#endif
+			ledSetLED(LED1,LED_ON);
+			statusLED1 = true;
+		}
 	}
 	if(motorStatus == false){
 		counter5++;

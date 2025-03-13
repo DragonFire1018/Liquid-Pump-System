@@ -23,6 +23,9 @@
 /***** PRIVATE MACROS ********************************************************/
 
 #define MICROVOLTAGE_TO_REVOLUTIONS 0.0005
+#define EMA_SCALING_FACTOR 10
+#define EMA_SCALED_ALPHA 1 /*Alpha times scaling factor*/
+
 /***** PRIVATE TYPES *********************************************************/
 
 
@@ -46,8 +49,7 @@ int32_t speedSensorInitialize()
 	gSensorVoltageFiltered  = 0;
 	gSensorSpeed 		    = 0;
 
-	/*Todo*/
-	filterInitEMA(&gSensorEMAFilter, 100, 70, true);
+	filterInitEMA(&gSensorEMAFilter, EMA_SCALING_FACTOR, EMA_SCALED_ALPHA, true);
 
 	return 0;
 }
@@ -55,7 +57,7 @@ int32_t speedSensorInitialize()
 int32_t speedSensorCycle()
 {
 	gSensorVoltage 				= adcReadChannel(ADC_INPUT0);
-	gSensorVoltageFiltered		= gSensorVoltage; // filterEMA(&gSensorEMAFilter, gSensorVoltage);
+	gSensorVoltageFiltered		= filterEMA(&gSensorEMAFilter, gSensorVoltage);
 
 	gSensorSpeed = sensorCalculateSpeed(gSensorVoltageFiltered);
 

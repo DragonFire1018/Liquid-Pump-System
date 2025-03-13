@@ -61,6 +61,7 @@ static uint32_t counter2;
 static uint32_t counter3;
 static uint32_t counter4;
 static uint32_t counter5;
+
 /***** PUBLIC FUNCTIONS ******************************************************/
 void initalizeMotor(){
 	buttonInfoSW1.button = BTN_SW1;
@@ -108,7 +109,7 @@ bool motorCycle(){
   					counter2++;
   					if(counter2>=TIME_THRESHOLD_3SEC){
 #if DEBUG_MODE == 1
-	outputLog("\n\rWarning: Very high motor speed.");
+	outputLog("\n\rWarning: Very high motor speed.\n");
 #endif
   						toggleLED1 = true;
   						counter2 = 0;
@@ -122,7 +123,7 @@ bool motorCycle(){
   						ledSetLED(LED1,LED_ON);
   						counter1 = 0;
 #if DEBUG_MODE == 1
-	outputLog("\n\rWarning: High motor speed.");
+	outputLog("\n\rWarning: High motor speed.\n");
 #endif
   					}
   					counter2 = 0;
@@ -141,7 +142,7 @@ bool motorCycle(){
   					counter3++;
   					if(counter3>=TIME_THRESHOLD_3SEC){
 #if DEBUG_MODE == 1
-	outputLog("\n\rWarning: High motor speed.");
+	outputLog("\n\rWarning: High motor speed.\n");
 #endif
   						toggleLED1 = false;
   						ledSetLED(LED1,LED_ON);
@@ -160,7 +161,7 @@ bool motorCycle(){
 			statusLED1 = false;
 		}else if(!statusLED1){
 #if DEBUG_MODE == 1
-	outputLog("\n\rMotor speed and flow rate mismatch.");
+	outputLog("\n\rMotor speed and flow rate mismatch.\n");
 #endif
 			ledSetLED(LED1,LED_ON);
 			statusLED1 = true;

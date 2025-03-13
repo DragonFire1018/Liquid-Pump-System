@@ -28,6 +28,8 @@
 #define FILTER_ERR_INVALID_PTR          -2      //!< Invalid pointer (Null Pointer)
 #define FILTER_ERR_INVALID_PARAM        -3      //!< Invalid parameter value
 
+#define FILTER_WINDOW_SIZE 5
+
 /***** TYPES *****************************************************************/
 
 /**
@@ -36,11 +38,11 @@
  */
 typedef struct _SMAFilterData
 {
-    bool firstValueAvailable;                   //!< Flag to indicate whether there was already a value set as prev value
-    int32_t previousValue;                      //!< Previous value of the filter output
+    int32_t inputsAvailable;                    //!< Number of values saved in the window
     int32_t scalingFactor;                      //!< Used scaling factor
-    int32_t sum;                      //!< sum of all values
-    int32_t windowSize;                      //!< size of the window
+    int32_t sum;                      			//!< sum of all values
+    int32_t windowPosition;						//!< position of last written value in window
+    int32_t window[FILTER_WINDOW_SIZE];			//!< the window
 } SMAFilterData_t;
 
 
@@ -50,14 +52,13 @@ typedef struct _SMAFilterData
 /**
  * @brief Initialize an SMA filter with the provided parameter
  *
- * @param pSMA              Poitner to the SMA filter struct
+ * @param pSMA              Pointer to the SMA filter struct
  * @param scalingFactor     Scaling factor used for internal calculations
- * @param alpha             Already scaled alpha factor (must be scaled with same scaling factor as supplied via parameter)
  * @param resetFilter       Flag to indicate whether the filter should be reset
  *
- * @return Return FILTER_ERR_OK is no error occured
+ * @return Return FILTER_ERR_OK is no error occurred
  */
-int32_t filterInitSMA(SMAFilterData_t* pSMA, int32_t scalingFactor, bool resetFilter,int32_t windowSize);
+int32_t filterInitSMA(SMAFilterData_t* pSMA, int32_t scalingFactor, bool resetFilter);
 
 
 /**
@@ -70,7 +71,7 @@ int32_t filterInitSMA(SMAFilterData_t* pSMA, int32_t scalingFactor, bool resetFi
 int32_t filterResetSMA(SMAFilterData_t* pSMA);
 
 /**
- * @brief Performs the ESA filtering on the provided sensor value
+ * @brief Performs the SMA filtering on the provided sensor value
  *
  * @param pSMA              Pointer to the SMA filter struct
  * @param sensorValue       Value which should be filtered

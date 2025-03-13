@@ -16,6 +16,8 @@
 /***** PRIVATE MACROS ********************************************************/
 
 #define MICROVOLTAGE_TO_LITER_PER_HOUR 0.00004
+#define SMA_SCALING_FACTOR 100
+
 /***** PRIVATE TYPES *********************************************************/
 
 
@@ -39,8 +41,7 @@ int32_t flowRateSensorInitialize()
 	gSensorVoltageFiltered  	= 0;
 	gSensorFlowRate 		    = 0;
 
-	/*Todo*/
-	filterInitSMA(&gSensorSMAFilter, 100, true, 10);
+	filterInitSMA(&gSensorSMAFilter, SMA_SCALING_FACTOR, true);
 
 	return 0;
 }
@@ -48,7 +49,7 @@ int32_t flowRateSensorInitialize()
 int32_t flowRateSensorCycle()
 {
 	gSensorVoltage 				= adcReadChannel(ADC_INPUT1);
-	gSensorVoltageFiltered		= gSensorVoltage; //filterSMA(&gSensorSMAFilter, gSensorVoltage);
+	gSensorVoltageFiltered		= filterSMA(&gSensorSMAFilter, gSensorVoltage);
 
 	gSensorFlowRate = sensorCalculateFlowRate(gSensorVoltageFiltered);
 

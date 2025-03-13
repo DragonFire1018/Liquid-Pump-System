@@ -154,10 +154,12 @@ static int32_t onStateOperational(State_t* pState, int32_t eventID)
 	if(!motorCycleStatus){
 		sameplAppSendEvent(EVT_ID_SYSTEM_FAILED);
 	}
-	//if(isStackOverflow()){
-	//	isSystemFailure = true;
-	//	sameplAppSendEvent(EVT_ID_SYSTEM_FAILED);
-	//}
+#if STACK_OVERFLOW_MONITORING == 1
+	if(isStackOverflow()){
+		isSystemFailure = true;
+		sameplAppSendEvent(EVT_ID_SYSTEM_FAILED);
+	}
+#endif
     return 0;
 }
 

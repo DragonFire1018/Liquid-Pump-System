@@ -49,12 +49,12 @@ typedef struct _EMAFilterData
 /**
  * @brief Initialize an EMA filter with the provided parameter
  *
- * @param pEMA              Poitner to the EMA filter struct
+ * @param pEMA              Pointer to the EMA filter struct
  * @param scalingFactor     Scaling factor used for internal calculations
  * @param alpha             Already scaled alpha factor (must be scaled with same scaling factor as supplied via parameter)
  * @param resetFilter       Flag to indicate whether the filter should be reset
  *
- * @return Return FILTER_ERR_OK is no error occured
+ * @return Return FILTER_ERR_OK is no error occurred
  */
 int32_t filterInitEMA(EMAFilterData_t* pEMA, int32_t scalingFactor, int32_t alpha, bool resetFilter);
 

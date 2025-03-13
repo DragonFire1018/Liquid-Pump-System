@@ -8,6 +8,8 @@
 #include "StackMonitoring.h"
 #include "LogOutput.h"
 
+#define BYTE_PER_STACK_FRAME 4
+
 extern uint32_t _top_of_stack;
 static uint32_t* pTopOfStack = (uint32_t*) &_top_of_stack;
 extern uint32_t _bottom_of_stack;
@@ -40,5 +42,5 @@ void countFreeStack() {
 		pCurrent++;
 	}
 
-	outputLogf("\n\rFree Stack: %d Bytes", counter);
+	outputLogf("\n\rFree Stack: %d Bytes", counter * BYTE_PER_STACK_FRAME);
 }

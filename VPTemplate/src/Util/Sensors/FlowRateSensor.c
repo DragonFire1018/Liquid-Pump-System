@@ -51,7 +51,7 @@ int32_t flowRateSensorInitialize()
 int32_t flowRateSensorCycle()
 {
 	gSensorVoltage 				= adcReadChannel(ADC_INPUT0);
-	gSensorVoltageFiltered		= filterSMA(&gSensorSMAFilter, gSensorVoltage);
+	gSensorVoltageFiltered		= gSensorVoltage; //filterSMA(&gSensorSMAFilter, gSensorVoltage);
 
 	gSensorFlowRate = sensorCalculateFlowRate(gSensorVoltageFiltered);
 

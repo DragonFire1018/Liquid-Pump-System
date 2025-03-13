@@ -46,6 +46,8 @@ static int32_t onExitOperational(State_t* pState, int32_t eventID);
 static int32_t onStateMaintenance(State_t* pState, int32_t eventID);
 static int32_t onExitMaintenance(State_t* pState, int32_t eventID);
 static int32_t onEntryFailure(State_t* pState, int32_t eventID);
+static int32_t onEntryOperational(State_t* pState, int32_t eventID);
+static int32_t onEntryMaintenance(State_t* pState, int32_t eventID);
 static void buttonB1Handler(int32_t eventID);
 
 /***** PRIVATE VARIABLES *****************************************************/
@@ -59,10 +61,10 @@ static void buttonB1Handler(int32_t eventID);
  */
 static State_t gStateList[] =
 {
-    {STATE_ID_BOOTUP, 		onEntryBootUp,  			 				0,                     0,  		false},
-    {STATE_ID_OPERATIONAL, 				0,             onStateOperational,     onExitOperational,  		false},
-	{STATE_ID_MAINTENANCE, 				0,             onStateMaintenance,     onExitMaintenance,  		false},
-    {STATE_ID_FAILURE, 	   	onEntryFailure,  							0,                     0,  		false}
+    {STATE_ID_BOOTUP, 				onEntryBootUp,  			 				0,                     0,  		false},
+    {STATE_ID_OPERATIONAL, 	   onEntryOperational,             onStateOperational,     onExitOperational,  		false},
+	{STATE_ID_MAINTENANCE, 	   onEntryMaintenance,             onStateMaintenance,     onExitMaintenance,  		false},
+    {STATE_ID_FAILURE, 	   	   	   onEntryFailure,  							0,                     0,  		false}
 };
 
 /**
@@ -121,6 +123,9 @@ int32_t sameplAppSendEvent(int32_t eventID)
 
 static int32_t onEntryBootUp(State_t* pState, int32_t eventID)
 {
+	outputLog("Enter BootUp State");
+	flowRateSensorInitialize();
+	speedSensorInitialize();
 	if((speedSensorGetSpeed() >= MIN_REVOLUTIONS && speedSensorGetSpeed() <= MAX_LITER_PER_HOUR)
 			&& (flowRateSensorGetFlowRate() >= MIN_LITER_PER_HOUR && flowRateSensorGetFlowRate() <= MAX_LITER_PER_HOUR)){
 		initalizeMaintenanceManager();
@@ -139,16 +144,20 @@ static int32_t onStateOperational(State_t* pState, int32_t eventID)
 {
 	ledSetLED(LED0,LED_ON);
 	buttonInfoB1.previousStatus = checkButtonStatus(&buttonInfoB1,EVT_ID_ENTER_MAINTENANCE);
-	motorCycle();
-	if(isStackOverflow()){
-		isSystemFailure = true;
+	bool motorCycleStatus = motorCycle();
+	if(!motorCycleStatus){
 		sameplAppSendEvent(EVT_ID_SYSTEM_FAILED);
 	}
+	//if(isStackOverflow()){
+	//	isSystemFailure = true;
+	//	sameplAppSendEvent(EVT_ID_SYSTEM_FAILED);
+	//}
     return 0;
 }
 
 static int32_t onExitOperational(State_t* pState, int32_t eventID)
 {
+	outputLog("Exit Operational State");
 	ledSetLED(LED0,LED_OFF);
     return 0;
 }
@@ -162,13 +171,14 @@ static int32_t onStateMaintenance(State_t* pState, int32_t eventID)
 
 static int32_t onExitMaintenance(State_t* pState, int32_t eventID)
 {
-
+	outputLog("Exit Maintenance State");
 	ledSetLED(LED0,LED_OFF);
     return 0;
 }
 
 static int32_t onEntryFailure(State_t* pState, int32_t eventID)
 {
+	outputLog("Enter Failure State");
 	stopMotor();
 	if(isSystemFailure){
 		ledSetLED(LED2,LED_ON);
@@ -184,5 +194,13 @@ static void buttonB1Handler(int32_t eventID){
 	if(eventID == EVT_ID_LEAVE_MAINTENANCE){
 		sameplAppSendEvent(EVT_ID_LEAVE_MAINTENANCE);
 	}
+}
+static int32_t onEntryOperational(State_t* pState, int32_t eventID){
+	outputLog("Enter Operational State");
+	return 0;
+}
+static int32_t onEntryMaintenance(State_t* pState, int32_t eventID){
+	outputLog("Enter Maintenance State");
+	return 0;
 }
 

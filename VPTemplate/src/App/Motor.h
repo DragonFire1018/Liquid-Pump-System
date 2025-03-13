@@ -39,7 +39,7 @@
 /***** PROTOTYPES ************************************************************/
 void initalizeMotor();
 void startMotor();
-void motorCycle();
+bool motorCycle();
 void stopMotor();
 
 #endif

@@ -58,7 +58,7 @@ int32_t speedSensorInitialize()
 int32_t speedSensorCycle()
 {
 	gSensorVoltage 				= adcReadChannel(ADC_INPUT0);
-	gSensorVoltageFiltered		= filterEMA(&gSensorEMAFilter, gSensorVoltage);
+	gSensorVoltageFiltered		= gSensorVoltage; // filterEMA(&gSensorEMAFilter, gSensorVoltage);
 
 	gSensorSpeed = sensorCalculateSpeed(gSensorVoltageFiltered);
 

@@ -102,6 +102,8 @@ int32_t sampleAppInitialize()
     int32_t result = stateTableInitialize(&gStateTable, gStateTableEntries, sizeof(gStateTableEntries) / sizeof(StateTableEntry_t), STATE_ID_BOOTUP);
     buttonInfoB1.button = BTN_B1;
     buttonInfoB1.previousStatus = BUTTON_RELEASED;
+	buttonInfoB1.pendingStatus = BUTTON_RELEASED;
+	buttonInfoB1.debounceCounter = 0;
     buttonInfoB1.action = buttonB1Handler;
     return result;
 }

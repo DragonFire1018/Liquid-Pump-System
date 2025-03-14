@@ -53,7 +53,7 @@
 
 
 /***** PRIVATE VARIABLES *****************************************************/
-static bool motorStatus;
+static bool motorStatus = false;
 static bool statusLED1;
 static bool toggleLED1;
 static bool toggleLED3;
@@ -69,10 +69,14 @@ static uint32_t counter5;
 void initalizeMotor(){
 	buttonInfoSW1.button = BTN_SW1;
 	buttonInfoSW1.previousStatus = BUTTON_RELEASED;
+	buttonInfoSW1.pendingStatus = BUTTON_RELEASED;
+	buttonInfoSW1.debounceCounter = 0;
 	buttonInfoSW1.action = startMotor;
 
 	buttonInfoSW2.button = BTN_SW2;
 	buttonInfoSW2.previousStatus = BUTTON_RELEASED;
+	buttonInfoSW2.pendingStatus = BUTTON_RELEASED;
+	buttonInfoSW2.debounceCounter = 0;
 	buttonInfoSW2.action = stopMotor;
 	toggleLED1 = false;
 	toggleLED3 = false;
@@ -85,8 +89,8 @@ void startMotor(){
 }
 
 bool motorCycle(){
-	checkButtonStatus(&buttonInfoSW1,0);
-	checkButtonStatus(&buttonInfoSW2,0);
+	buttonInfoSW1.previousStatus = checkButtonStatus(&buttonInfoSW1,0);
+	buttonInfoSW2.previousStatus = checkButtonStatus(&buttonInfoSW2,0);
 	int sensorflowRate = flowRateSensorGetFlowRate();
 	int flowRate = getFlowRate();
 	int motorSpeed = speedSensorGetSpeed();
@@ -102,7 +106,7 @@ bool motorCycle(){
   		if((-5 <= (sensorflowRate - flowRate)) && ((sensorflowRate - flowRate) <= 5) && motorStatus == true){
 			ledSetLED(LED3,LED_ON);
 			toggleLED3 = false;
-		}else{
+		}else if (motorStatus){
 			toggleLED3 = true;
 		}
   		if(motorSpeed >= 1000){

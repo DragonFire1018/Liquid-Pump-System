@@ -34,7 +34,9 @@ typedef void (*ButtonAction)(int32_t);
 typedef struct{
 	Button_t button;
 	Button_Status_t previousStatus;
+	Button_Status_t pendingStatus;
 	ButtonAction action;
+	int32_t debounceCounter;
 } ButtonInfo_t;
 
 

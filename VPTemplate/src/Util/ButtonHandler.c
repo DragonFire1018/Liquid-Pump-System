@@ -26,6 +26,7 @@
 
 /***** PRIVATE MACROS ********************************************************/
 
+#define DEBOUNCE_DELAY_COUNT 1
 
 /***** PRIVATE TYPES *********************************************************/
 
@@ -40,13 +41,28 @@
 Button_Status_t checkButtonStatus(ButtonInfo_t* buttonInfo, int32_t actionValue){
 	Button_Status_t currentStatus = buttonGetButtonStatus(buttonInfo->button);
 
-	// Check condition change from not pressed to pressed
-	if (currentStatus == BUTTON_PRESSED && buttonInfo->previousStatus == BUTTON_RELEASED){
-	    // Perform action
-	    buttonInfo->action(actionValue);
+	/* Check condition change */
+	if (currentStatus != buttonInfo->previousStatus) {
+	    /* Reset counter */
+		buttonInfo->debounceCounter = 0;
+		/* Return old status */
+		//return buttonInfo->previousStatus;
 	}
-
-	// Update previous status
+	if (buttonInfo->debounceCounter > DEBOUNCE_DELAY_COUNT) {
+		if (currentStatus != buttonInfo->pendingStatus) {
+			/* Update pending status */
+			buttonInfo->pendingStatus = currentStatus;
+			/* Only perform action if button is pressed */
+			if (buttonInfo->pendingStatus == BUTTON_PRESSED) {
+				/* Perform action */
+			    buttonInfo->action(actionValue);
+			}
+		}
+	}
+	/* Count up */
+	buttonInfo->debounceCounter++;
+	/* Update previous status */
 	return currentStatus;
 }
+
 /***** PRIVATE FUNCTIONS *****************************************************/

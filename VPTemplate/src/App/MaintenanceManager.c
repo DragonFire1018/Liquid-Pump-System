@@ -49,15 +49,19 @@ void initalizeMaintenanceManager(){
 	flowRate = 0;
 	buttonInfoSW1.button = BTN_SW1;
 	buttonInfoSW1.previousStatus = BUTTON_RELEASED;
+	buttonInfoSW1.pendingStatus = BUTTON_RELEASED;
+	buttonInfoSW1.debounceCounter = 0;
 	buttonInfoSW1.action = handleSW1Event;
 
 	buttonInfoSW2.button = BTN_SW2;
 	buttonInfoSW2.previousStatus = BUTTON_RELEASED;
+	buttonInfoSW2.pendingStatus = BUTTON_RELEASED;
+	buttonInfoSW2.debounceCounter = 0;
 	buttonInfoSW2.action = handleSW2Event;
 }
 void maintenanceCycle(){
-	checkButtonStatus(&buttonInfoSW1,0);
-	checkButtonStatus(&buttonInfoSW2,0);
+	buttonInfoSW1.previousStatus = checkButtonStatus(&buttonInfoSW1,0);
+	buttonInfoSW2.previousStatus = checkButtonStatus(&buttonInfoSW2,0);
 	if(flowRate <= MIN_FOW_RATE){
 		//display "--"
 		displayDoubleDigitNumber(DISPLAY_NO_FLOW_RATE,FLOW_RATE);

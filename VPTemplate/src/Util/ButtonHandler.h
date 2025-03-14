@@ -1,16 +1,18 @@
 /******************************************************************************
- * @file <Filename>.h
+ * @file ButtonHandler.h
  *
- * @author <Author>
- * @date   <Date>
+ * @author DragonFire1018
+ * @date   12.03.2025
  *
  * @copyright Copyright (c) 2025
  *
  ******************************************************************************
  *
- * @brief <Some short descrition>
+ * @brief Header for button handling logic.
  *
- * @details <A more detailed description>
+ * @details This header file defines the public functions and types for handling buttons,
+ * 	including checking the button status and performing actions when a button is pressed.
+ * 	It provides an interface for integrating button handling into a larger system.
  *
  *
  *****************************************************************************/

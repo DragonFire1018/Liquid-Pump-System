@@ -1,16 +1,17 @@
 /******************************************************************************
- * @file <Filename>.h
+ * @file MaintenanceManager.h
  *
- * @author <Author>
- * @date   <Date>
+ * @author DragonFie1018
+ * @date   12.03.2025
  *
  * @copyright Copyright (c) 2025
  *
  ******************************************************************************
  *
- * @brief <Some short descrition>
+ * @brief Header for the maintenance manager to control flow rate.
  *
- * @details <A more detailed description>
+ * @details This header file defines the public functions of the maintenance manager,
+ *  which are used for initialization, running the maintenance cycle, and returning the current flow rate.
  *
  *
  *****************************************************************************/
@@ -35,7 +36,9 @@
 
 /***** PROTOTYPES ************************************************************/
 void initalizeMaintenanceManager();
+
 void maintenanceCycle();
+
 int32_t getFlowRate();
 
 #endif

@@ -1,16 +1,19 @@
 /******************************************************************************
- * @file <Filename>.h
+ * @file Motor.c
  *
- * @author <Author>
- * @date   <Date>
+ * @author DragonFire1018
+ * @date   12.03.2025
  *
  * @copyright Copyright (c) 2025
  *
  ******************************************************************************
  *
- * @brief <Some short descrition>
+  * @brief Implementation of motor control logic with speed and flow rate monitoring.
  *
- * @details <A more detailed description>
+ * @details This file contains the implementation of the motor control logic,
+ *  which includes starting and stopping the motor based on flow rate conditions,
+ *  monitoring motor speed, and handling warnings for speed thresholds.
+ *  It also manages LED indicators for status and warnings.
  *
  *
  *****************************************************************************/

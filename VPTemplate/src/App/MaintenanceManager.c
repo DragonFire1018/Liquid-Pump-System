@@ -1,16 +1,17 @@
 /******************************************************************************
- * @file <Filename>.h
+ * @file MaintenanceManager.c
  *
- * @author <Author>
- * @date   <Date>
+ * @author DragonFire1018
+ * @date   12.03.2025
  *
  * @copyright Copyright (c) 2025
  *
  ******************************************************************************
  *
- * @brief <Some short descrition>
+ * @brief Implementation of the maintenance manager for controlling flow rate.
  *
- * @details <A more detailed description>
+ * @details This file contains the implementation of the maintenance manager, which controls the flow rate and processes user inputs.
+ * 		It includes functions for initialization, running the maintenance cycle, and returning the current flow rate.
  *
  *
  *****************************************************************************/

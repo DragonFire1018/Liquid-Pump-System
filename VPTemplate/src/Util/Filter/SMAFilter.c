@@ -1,10 +1,43 @@
-/*
- * SMAFilter.c
+/******************************************************************************
+ * @file SMAFilter.c
  *
- *  Created on: 10.03.2025
- *      Author: drago
- */
+ * @author DragonFire1018
+ * @date   12.03.2025
+ *
+ * @copyright Copyright (c) 2025
+ *
+ ******************************************************************************
+ *
+  * @brief Implementation of a Simple Moving Average (SMA) filter.
+ *
+ * @details This file contains the implementation of a Simple Moving Average (SMA) filter,
+ *  which is used to smooth sensor data by averaging a fixed number of recent values.
+ *  It includes functions for initializing, resetting, and applying the SMA filter to sensor readings.
+ *
+ *
+ *****************************************************************************/
+
+
+/***** INCLUDES **************************************************************/
 #include "SMAFilter.h"
+
+
+/***** PRIVATE CONSTANTS *****************************************************/
+
+
+/***** PRIVATE MACROS ********************************************************/
+
+
+/***** PRIVATE TYPES *********************************************************/
+
+
+/***** PRIVATE PROTOTYPES ****************************************************/
+
+
+/***** PRIVATE VARIABLES *****************************************************/
+
+
+/***** PUBLIC FUNCTIONS ******************************************************/
 
 int32_t filterInitSMA(SMAFilterData_t* pSMA, int32_t scalingFactor, bool resetFilter){
 	pSMA->inputsAvailable = 0;

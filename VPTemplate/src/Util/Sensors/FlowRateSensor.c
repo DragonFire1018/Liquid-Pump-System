@@ -1,9 +1,22 @@
-/*
- * FlowRateSensor.c
+/******************************************************************************
+ * @file FlowRateSensor.c
  *
- *  Created on: 10.03.2025
- *      Author: drago
- */
+ * @author DragonFire1018
+ * @date   11.03.2025
+ *
+ * @copyright Copyright (c) 2025
+ *
+ ******************************************************************************
+ *
+ * @brief Implementation of a flow rate sensor using an ADC and SMA filter.
+ *
+ * @details This file contains the implementation of a flow rate sensor that reads voltage from an ADC,
+ *  applies a Simple Moving Average (SMA) filter to smooth the readings,
+ *  and calculates the flow rate based on the filtered voltage.#
+ *  It includes functions for initialization, running the sensor cycle, and retrieving the current flow rate.
+ *
+ *
+ *****************************************************************************/
 
 /***** INCLUDES **************************************************************/
 #include "ADCModule.h"

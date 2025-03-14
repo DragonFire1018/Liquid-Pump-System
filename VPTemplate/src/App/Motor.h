@@ -1,16 +1,18 @@
 /******************************************************************************
  * @file Motor.h
  *
- * @author drago
+ * @author DragonFire1018
  * @date   10.03.2025
  *
  * @copyright Copyright (c) 2025
  *
  ******************************************************************************
  *
- * @brief <Some short descrition>
+ * @brief Interface for motor control logic with speed and flow rate monitoring.
  *
- * @details <A more detailed description>
+ * @details This header file defines the public functions for motor control,
+ *  including initialization, starting and stopping the motor, and running the motor cycle.
+ *  It provides an interface for managing motor status and handling warnings based on speed thresholds.
  *
  *
  *****************************************************************************/
@@ -40,8 +42,11 @@
 
 /***** PROTOTYPES ************************************************************/
 void initalizeMotor();
+
 void startMotor();
+
 bool motorCycle();
+
 void stopMotor();
 
 #endif

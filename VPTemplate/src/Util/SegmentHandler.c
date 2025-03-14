@@ -1,12 +1,31 @@
-/*
- * SegementHandler.c
+/******************************************************************************
+ * @file SegementHandler.c
  *
- *  Created on: 12.03.2025
- *      Author: drago
- */
+ * @author DragonFire1018
+ * @date   12.03.2025
+ *
+ * @copyright Copyright (c) 2025
+ *
+ ******************************************************************************
+ *
+ * @brief Implementation of a segment handler for displaying double-digit numbers.
+ *
+ * @details This file contains the implementation of a segment handler
+ * that displays double-digit numbers on a two-digit display.
+ * It alternates between the left and right displays to show the digits of a number.
+ *
+ *
+ *****************************************************************************/
+
+/***** INCLUDES **************************************************************/
 
 #include "SegmentHandler.h"
+
+/***** PRIVATE PROTOTYPES ****************************************************/
+
 static Display_t currentSide = LEFT_DISPLAY;
+
+/***** PUBLIC FUNCTIONS ******************************************************/
 
 void displayDoubleDigitNumber(int16_t number,ADC_TYPE adcType){
 	uint16_t firstPart;

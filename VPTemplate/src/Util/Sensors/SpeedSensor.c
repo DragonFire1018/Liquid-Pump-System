@@ -1,15 +1,22 @@
-#/******************************************************************************
- * SpeedSensor.c
+/******************************************************************************
+ * @file SpeedSensor.c
  *
- *  Created on: 05.03.2025
- *      Author: drago
+ * @author DragonFire1018
+ * @date   11.03.2025
+ *
+ * @copyright Copyright (c) 2025
+ *
  ******************************************************************************
  *
- * @brief Sensor Module for SpeedSensor
+ * @brief Implementation of a speed sensor using an ADC and EMA filter.
+ *
+ * @details This file contains the implementation of a speed sensor that reads voltage from an ADC,
+ *  applies an Exponential Moving Average (EMA) filter to smooth the readings,
+ *  and calculates the speed based on the filtered voltage.
+ *  It includes functions for initialization, running the sensor cycle, and retrieving the current speed.
  *
  *
  *****************************************************************************/
-
 
 /***** INCLUDES **************************************************************/
 #include "ADCModule.h"

@@ -98,9 +98,10 @@ bool motorCycle(){
 	int sensorflowRate = flowRateSensorGetFlowRate();
 	int flowRate = getFlowRate();
 	int motorSpeed = speedSensorGetSpeed();
-	if(motorSpeed  == 0)
+	if(motorSpeed  == 0 || flowRate == 0 || motorStatus == false)
 	{
 		motorStatus = false;
+		toggleLED3 = false;
 		//display "oo"on the 7-Seg
 		displayDoubleDigitNumber(DISPLAY_NO_MOTOR_SPEED,SPEED);
 	}
@@ -155,7 +156,7 @@ bool motorCycle(){
   					counter1 = 0;
   					counter2 = 0;
   					counter3 = 0;
-  		}else if(motorSpeed < SPEED_THRESHOLD_800){
+  		}else if(motorSpeed > SPEED_THRESHOLD_700 && motorSpeed < SPEED_THRESHOLD_800){
   					counter3++;
   					if(counter3>=TIME_THRESHOLD_3SEC){
 #if DEBUG_MODE == 1

@@ -57,6 +57,8 @@ static bool motorStatus = false;
 static bool statusLED1;
 static bool toggleLED1;
 static bool toggleLED3;
+static bool highSpeedWarning;
+static bool mismatchWarning;
 static ButtonInfo_t buttonInfoSW1;
 static ButtonInfo_t buttonInfoSW2;
 static uint32_t counter1;
@@ -80,6 +82,8 @@ void initalizeMotor(){
 	buttonInfoSW2.action = stopMotor;
 	toggleLED1 = false;
 	toggleLED3 = false;
+	highSpeedWarning = false;
+	mismatchWarning = false;
 }
 void startMotor(){
 	if(flowRateSensorGetFlowRate()  > 0 && getFlowRate() > 0){
@@ -119,6 +123,7 @@ bool motorCycle(){
 	outputLog("\n\rWarning: Very high motor speed.\n");
 #endif
   						toggleLED1 = true;
+  						highSpeedWarning = true;
   						counter2 = 0;
   					}
   					counter1 = 0;
@@ -128,6 +133,7 @@ bool motorCycle(){
   					counter1++;
   					if(counter1>=TIME_THRESHOLD_5SEC){
   						ledSetLED(LED1,LED_ON);
+  						highSpeedWarning = true;
   						counter1 = 0;
 #if DEBUG_MODE == 1
 	outputLog("\n\rWarning: High motor speed.\n");
@@ -139,7 +145,11 @@ bool motorCycle(){
   		if(motorSpeed < SPEED_THRESHOLD_650){
   					counter4++;
   					if(counter4>=TIME_THRESHOLD_3SEC){
-  						ledSetLED(LED1,LED_OFF);
+  						toggleLED1 = false;
+  						if (!mismatchWarning){
+  							ledSetLED(LED1,LED_OFF);
+  						}
+  						highSpeedWarning = false;
   						counter4 = 0;
   					}
   					counter1 = 0;
@@ -153,6 +163,7 @@ bool motorCycle(){
 #endif
   						toggleLED1 = false;
   						ledSetLED(LED1,LED_ON);
+  						highSpeedWarning = true;
   						counter3 = 0;
   					}
   					counter2 = 0;
@@ -164,13 +175,17 @@ bool motorCycle(){
 				|| ((MOTOR_SPEED_RANGE_400 < motorSpeed && motorSpeed <= MOTOR_SPEED_RANGE_600) && (FLOW_RATE_RANGE_50 < sensorflowRate &&  sensorflowRate <= FLOW_RATE_RANGE_75))
 				|| (MOTOR_SPEED_RANGE_600 < motorSpeed && sensorflowRate <= FLOW_RATE_RANGE_80))
 		{
-			ledSetLED(LED1,LED_OFF);
-			statusLED1 = false;
+			if (!highSpeedWarning){
+				ledSetLED(LED1,LED_OFF);
+				mismatchWarning = false;
+				statusLED1 = false;
+			}
 		}else if(!statusLED1){
 #if DEBUG_MODE == 1
 	outputLog("\n\rMotor speed and flow rate mismatch.\n");
 #endif
 			ledSetLED(LED1,LED_ON);
+			mismatchWarning = true;
 			statusLED1 = true;
 		}
 	}
